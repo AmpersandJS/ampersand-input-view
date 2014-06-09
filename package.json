@@ -7,6 +7,7 @@
     "url": "https://github.com/ampersandjs/ampersand-input-view/issues"
   },
   "dependencies": {
+    "ampersand-dom": "~0.1.1",
     "domify": "~1.2.2"
   },
   "homepage": "https://github.com/ampersandjs/ampersand-input-view",

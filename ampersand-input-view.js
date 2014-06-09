@@ -1,4 +1,5 @@
 var domify = require('domify');
+var dom = require('ampersand-dom');
 
 
 // can be overwritten by anything with:
@@ -72,13 +73,13 @@ TextInputView.prototype.setMessage = function (message) {
     if (message && this.hasBeenValid) {
         this.messageContainer.style.display = 'block';
         this.messageEl.textContent = message;
-        addClass(input, this.invalidClass);
-        removeClass(input, this.validClass);
+        dom.addClass(input, this.invalidClass);
+        dom.removeClass(input, this.validClass);
     } else {
         this.messageContainer.style.display = 'none';
         if (this.hasBeenValid && this.edited) {
-            addClass(input, this.validClass);
-            removeClass(input, this.invalidClass);
+            dom.addClass(input, this.validClass);
+            dom.removeClass(input, this.invalidClass);
         }
     }
 };
@@ -154,31 +155,3 @@ TextInputView.prototype.render = function () {
 };
 
 module.exports = TextInputView;
-
-
-// helpers *ugh*
-function hasClass(el, cls) {
-    if (el.classList) {
-        return el.classList.contains(cls);
-    } else {
-        return new RegExp('(^| )' + cls + '( |$)', 'gi').test(el.className);
-    }
-}
-
-function addClass(el, cls) {
-    if (!hasClass(el, cls)) {
-        if (el.classList) {
-            el.classList.add(cls);
-        } else {
-            el.className += ' ' + cls;
-        }
-    }
-}
-
-function removeClass(el, cls) {
-    if (el.classList) {
-        el.classList.remove(cls);
-    } else {
-        el.className = el.className.replace(new RegExp('(^|\\b)' + cls.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
-    }
-}
