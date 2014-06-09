@@ -135,6 +135,12 @@ TextInputView.prototype.render = function () {
     if (parent) parent.replaceChild(newDom, this.el);
     this.el = newDom;
     this.input = this.el.querySelector('input');
+    if (this.type === 'textarea') {
+        var parent = this.input.parentNode;
+        var textarea = document.createElement('textarea');
+        parent.replaceChild(textarea, this.input);
+        this.input = textarea;
+    }
     this.labelEl = this.el.querySelector('[role=label]');
     this.messageContainer = this.el.querySelector('[role=message-container]');
     this.messageEl = this.el.querySelector('[role=message-text]');
