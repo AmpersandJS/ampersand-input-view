@@ -21,6 +21,7 @@ function TextInputView(opts) {
     // settings
     this.name = opts.name;
     this.value = opts.value || '';
+    this.originalValue = opts.value || '';
     this.el = opts.el;
     this.template = opts.template || template;
     this.placeholder = opts.placeholder || '';
@@ -38,9 +39,9 @@ function TextInputView(opts) {
 
     // add our event handlers
     this.handleBlur = this.handleBlur.bind(this);
-    this.handleInputEvent = this.handleInputEvent.bind(this);
+    this.handleInputChanged = this.handleInputChanged.bind(this);
     this.input.addEventListener('blur', this.handleBlur, false);
-    this.input.addEventListener('input', this.handleInputEvent, false);
+    this.input.addEventListener('input', this.handleInputChanged, false);
 
     // tests for validity
     this.tests = opts.tests || [];
@@ -50,18 +51,26 @@ function TextInputView(opts) {
 
 // remove and destroy element
 TextInputView.prototype.remove = function () {
-    this.input.removeEventListener('input', this.handleInputEvent, false);
+    this.input.removeEventListener('input', this.handleInputChanged, false);
     this.input.removeEventListener('blur', this.handleBlur, false);
     var parent = this.el.parentNode;
     if (parent) parent.removeChild(this.el);
 };
 
 // handle input events and show appropriate errors
-TextInputView.prototype.handleInputEvent = function () {
+TextInputView.prototype.handleInputChanged = function () {
+    // track whether user has edited directly
+    if (document.activeElement === this.input) this.directlyEdited = true;
     this.value = this.input.value;
     this.edited = true;
     this.runTests();
     if (this.parent) this.parent.update(this);
+};
+
+// Expose a method for explicitly setting the value
+TextInputView.prototype.setValue = function (value, runValidation) {
+    this.input.value = value;
+    this.handleInputChanged();
 };
 
 // set the error message if exists
