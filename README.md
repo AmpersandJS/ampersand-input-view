@@ -5,10 +5,10 @@ A view module for intelligently rendering and validating input. Works well with 
 It does the following:
 
 - Automatically shows/hides error messages based on tests
-- Will not show error messages pre-submit or it's ever had a valid value. This lets people tab-through a form without triggering a bunch of error message.
+- Will not show error messages pre-submit or it's never had a valid value. This lets people tab-through a form without triggering a bunch of error messages.
 - Live-validates to always report if in valid state, but only shows messages when sane to do so.
 
-It only have one small dependency. Works well with ampersand apps, backbone apps or anything else, really.
+It's built on [ampersand-view](ampersandjs/ampersand-view) so it can be extended with `extend` as you might expect.
 
 ## install
 
