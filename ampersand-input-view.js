@@ -58,7 +58,7 @@ module.exports = View.extend({
         // switches out input for textarea if that's what we want
         this.handleTypeChange();
         this.initInputBindings();
-        this.input.value = this.value;
+        this.setValue(this.value);
     },
     props: {
         value: 'string',
@@ -95,14 +95,20 @@ module.exports = View.extend({
             }
         },
         validityClass: {
-            deps: ['valid', 'validClass', 'invalidClass', 'shouldValidate'],
+            deps: ['valid', 'validClass', 'invalidClass', 'shouldValidate', 'changed'],
             fn: function () {
-                if (!this.shouldValidate) {
+                if (!this.shouldValidate || !this.changed) {
                     return '';
                 } else {
                     return this.valid ? this.validClass : this.invalidClass;
                 }
             }
+        }
+    },
+    setValue: function () {
+        this.input.value = this.value;
+        if (!this.getErrorMessage(this.value)) {
+            this.shouldValidate = true;
         }
     },
     getErrorMessage: function () {
