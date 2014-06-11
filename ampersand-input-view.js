@@ -58,6 +58,7 @@ module.exports = View.extend({
         // switches out input for textarea if that's what we want
         this.handleTypeChange();
         this.initInputBindings();
+        this.input.value = this.value;
     },
     props: {
         value: 'string',
