@@ -62,7 +62,7 @@ module.exports = View.extend({
     },
     props: {
         value: 'any',
-        startingValue: 'string',
+        startingValue: 'any',
         name: 'string',
         type: ['string', true, 'text'],
         placeholder: ['string', true, ''],
