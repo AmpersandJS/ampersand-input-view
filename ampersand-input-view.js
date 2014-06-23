@@ -105,11 +105,12 @@ module.exports = View.extend({
             }
         }
     },
-    setValue: function () {
+    setValue: function (value) {
+        this.value = value;
         if (!this.value) {
             this.input.value = '';
         } else {
-            this.input.value = String.prototype.toString.call(this.value);
+            this.input.value = this.value.toString();
         }
         if (!this.getErrorMessage(this.value)) {
             this.shouldValidate = true;
