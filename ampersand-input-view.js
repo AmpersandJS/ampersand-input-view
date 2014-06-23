@@ -61,7 +61,7 @@ module.exports = View.extend({
         this.setValue(this.value);
     },
     props: {
-        value: 'string',
+        value: 'any',
         startingValue: 'string',
         name: 'string',
         type: ['string', true, 'text'],
@@ -106,7 +106,11 @@ module.exports = View.extend({
         }
     },
     setValue: function () {
-        this.input.value = this.value;
+        if (!this.value) {
+            this.input.value = '';
+        } else {
+            this.input.value = String.prototype.toString.call(this.value);
+        }
         if (!this.getErrorMessage(this.value)) {
             this.shouldValidate = true;
         }
@@ -138,7 +142,10 @@ module.exports = View.extend({
         if (document.activeElement === this.input) {
             this.directlyEdited = true;
         }
-        this.value = this.input.value;
+        this.value = this.clean(this.input.value);
+    },
+    clean: function (val) {
+        return (this.type === 'number') ? Number(val) : val.trim();
     },
     handleBlur: function () {
         if (this.value && this.changed) {
