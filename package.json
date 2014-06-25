@@ -7,7 +7,7 @@
     "url": "https://github.com/ampersandjs/ampersand-input-view/issues"
   },
   "dependencies": {
-    "ampersand-view": "~5.1.5"
+    "ampersand-view": "^6.0.3"
   },
   "homepage": "https://github.com/ampersandjs/ampersand-input-view",
   "keywords": [
