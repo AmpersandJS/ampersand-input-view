@@ -1,6 +1,6 @@
 # ampersand-input-view
 
-A view module for intelligently rendering and validating input. Works well with [ampersand-form-view](ampersandjs/ampersand-form-view).
+A view module for intelligently rendering and validating input. Works well with [ampersand-form-view](https://github.com/AmpersandJS/ampersand-form-view).
 
 It does the following:
 
@@ -8,7 +8,7 @@ It does the following:
 - Will not show error messages pre-submit or it's never had a valid value. This lets people tab-through a form without triggering a bunch of error messages.
 - Live-validates to always report if in valid state, but only shows messages when sane to do so.
 
-It's built on [ampersand-view](ampersandjs/ampersand-view) so it can be extended with `extend` as you might expect.
+It's built on [ampersand-view](https://github.com/AmpersandJS/ampersand-view) so it can be extended with `extend` as you might expect.
 
 ## install
 
