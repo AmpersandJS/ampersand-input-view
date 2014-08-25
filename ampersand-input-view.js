@@ -4,10 +4,10 @@ var View = require('ampersand-view');
 module.exports = View.extend({
     template: [
         '<label>',
-            '<span role="label"></span>',
-            '<input>',
-            '<div role="message-container" class="message message-below message-error">',
-                '<p role="message-text"></p>',
+            '<span data-hook="label"></span>',
+            '<input class="form-input">',
+            '<div data-hook="message-container" class="message message-below message-error">',
+                '<p data-hook="message-text"></p>',
             '</div>',
         '</label>'
     ].join(''),
@@ -19,20 +19,20 @@ module.exports = View.extend({
         },
         'label': [
             {
-                role: 'label'
+                hook: 'label'
             },
             {
                 type: 'toggle',
-                role: 'label'
+                hook: 'label'
             }
         ],
         'message': {
             type: 'text',
-            role: 'message-text'
+            hook: 'message-text'
         },
         'showMessage': {
             type: 'toggle',
-            role: 'message-container'
+            hook: 'message-container'
         },
         'placeholder': {
             type: 'attribute',
@@ -54,7 +54,7 @@ module.exports = View.extend({
     },
     render: function () {
         this.renderWithTemplate();
-        this.input = this.get('input') || this.get('textarea');
+        this.input = this.query('input') || this.query('textarea');
         // switches out input for textarea if that's what we want
         this.handleTypeChange();
         this.initInputBindings();

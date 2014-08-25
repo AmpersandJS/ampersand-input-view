@@ -7,7 +7,7 @@
     "url": "https://github.com/ampersandjs/ampersand-input-view/issues"
   },
   "dependencies": {
-    "ampersand-view": "^6.0.3"
+    "ampersand-view": "^7.0.0"
   },
   "homepage": "https://github.com/ampersandjs/ampersand-input-view",
   "keywords": [
@@ -20,5 +20,17 @@
   "repository": {
     "type": "git",
     "url": "git://github.com/ampersandjs/ampersand-input-view"
+  },
+  "devDependencies": {
+    "browserify": "^5.10.1",
+    "function-bind": "^1.0.0",
+    "run-browser": "^1.3.1",
+    "tap-spec": "^0.2.1",
+    "tape": "^2.14.0",
+    "tape-run": "^0.3.0"
+  },
+  "scripts": {
+    "start": "run-browser test/index.js",
+    "test": "browserify test/index.js | tape-run | tap-spec"
   }
 }

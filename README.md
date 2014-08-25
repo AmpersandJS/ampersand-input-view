@@ -27,9 +27,9 @@ var field = new InputView({
     // You can replace the built-in template with your own.
     // just give it an html string. Make sure it has a single "root" element that contains:
     //  - an `<input>` element
-    //  - an element with a `role="label"` attribute
-    //  - an element with a `role="message-container"` attribute (this we'll show/hide)
-    //  - an elememt with a `role="message-text"` attribute (where message text goes for error)
+    //  - an element with a `data-hook="label"` attribute
+    //  - an element with a `data-hook="message-container"` attribute (this we'll show/hide)
+    //  - an elememt with a `data-hook="message-text"` attribute (where message text goes for error)
     template: // some HTML string
     // Label name
     label: 'App Name',
