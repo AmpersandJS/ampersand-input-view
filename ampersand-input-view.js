@@ -54,7 +54,7 @@ module.exports = View.extend({
     },
     render: function () {
         this.renderWithTemplate();
-        this.input = this.get('input') || this.get('textarea');
+        this.input = this.query('input') || this.query('textarea');
         // switches out input for textarea if that's what we want
         this.handleTypeChange();
         this.initInputBindings();
