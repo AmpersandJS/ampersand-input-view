@@ -26,7 +26,7 @@ var field = new InputView({
     name: 'client_name',
     // You can replace the built-in template with your own.
     // just give it an html string. Make sure it has a single "root" element that contains:
-    //  - an `<input>` element
+    //  - an `<input>` or `<textarea>` element
     //  - an element with a `data-hook="label"` attribute
     //  - an element with a `data-hook="message-container"` attribute (this we'll show/hide)
     //  - an elememt with a `data-hook="message-text"` attribute (where message text goes for error)
