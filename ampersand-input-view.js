@@ -51,6 +51,7 @@ module.exports = View.extend({
         this.handleInputChanged = this.handleInputChanged.bind(this);
         this.startingValue = this.value;
         this.on('change:valid change:value', this.reportToParent, this);
+        this.template = spec.template || this.template;
     },
     render: function () {
         this.renderWithTemplate();
