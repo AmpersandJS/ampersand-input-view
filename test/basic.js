@@ -31,6 +31,20 @@ test('initialize with value', function (t) {
     t.end();
 });
 
+test('reset value', function (t) {
+    var input = new InputView({
+        name: 'title',
+        value: 'My time here is short'
+    });
+
+    input.render();
+    input.reset();
+    input.render();
+
+    t.equal(input.el.querySelector('input').value, '', 'Value should be reset');
+    t.end();
+});
+
 test('value must be entered if required', function (t) {
     var input = new InputView({
         name: 'title',
