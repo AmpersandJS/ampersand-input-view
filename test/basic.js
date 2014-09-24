@@ -51,7 +51,7 @@ test('value must be entered if required', function (t) {
         required: true,
         tests: [
             function (val) {
-                if (val.length < 5) return "Must be 5+ characters.";
+                if (val.length < 5) return 'Must be 5+ characters.';
             }
         ]
     });
