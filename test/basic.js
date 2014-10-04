@@ -1,5 +1,6 @@
 var test = require('tape');
 var InputView = require('../ampersand-input-view');
+var customTemplate = '<label class="custominput"><span data-hook="label"></span><input><div data-hook="message-container"><p data-hook="message-text"></p></div></label>';
 if (!Function.prototype.bind) Function.prototype.bind = require('function-bind');
 
 function isHidden(el) {
@@ -29,6 +30,34 @@ test('initialize with value', function (t) {
 
     t.equal(input.el.querySelector('input').value, 'Once upon a time');
     t.end();
+});
+
+test('can initialize with template without having to extend', function (t) {
+    var input = new InputView({
+        name: 'title',
+        value: 'Once upon a time',
+        template: customTemplate
+    });
+
+    input.render();
+
+    t.equal(input.el.className, 'custominput');
+    t.end();
+});
+
+test('should be able to extend a template as well', function (t) {
+    var input = new (InputView.extend({
+        template: customTemplate
+    }))({name: 'title',
+        value: 'Once upon a time',
+    });
+
+    input.render();
+
+    t.equal(input.el.className, 'custominput');
+    t.end();
+
+    input.render();
 });
 
 test('value must be entered if required', function (t) {
