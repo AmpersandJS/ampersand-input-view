@@ -107,7 +107,7 @@ module.exports = View.extend({
     },
     setValue: function (value) {
         this.value = value;
-        if (typeof this.value === "undefined" || this.value === false || this.value === null) {
+        if (this.value === undefined || this.value === false || this.value === null) {
             this.input.value = '';
         } else {
             this.input.value = this.value.toString();
