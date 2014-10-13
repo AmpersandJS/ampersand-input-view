@@ -31,6 +31,19 @@ test('initialize with value', function (t) {
     t.end();
 });
 
+test('initalize with a value of `0`', function(t) {
+	var input = new InputView({
+	    name: 'title',
+	    type: 'number',
+		value: 0
+    });
+	                    
+    input.render();
+	                        
+	t.equal(parseFloat(input.el.querySelector('input').value), 0);
+	t.end();
+});
+
 test('value must be entered if required', function (t) {
     var input = new InputView({
         name: 'title',
