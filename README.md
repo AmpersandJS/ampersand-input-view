@@ -71,6 +71,10 @@ document.querySelector('form').appendChild(field.el);
 
 ```
 
+## changelog
+
+- 2.0.2 - Make sure templates can be passed in, in constructor.
+
 ## credits
 
 Created by [@HenrikJoreteg](http://twitter.com/henrikjoreteg).
