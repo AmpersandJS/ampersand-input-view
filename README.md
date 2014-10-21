@@ -45,6 +45,9 @@ var field = new InputView({
     required: true, // true by default
     // class to set on input when input is valid
     validClass: 'input-valid', // <- that's the default
+    // class that will be applied to root element, useful for
+    // css hooks
+    rootElementClass: '',
     // type value to use for the input tag's type value
     type: 'text',
     // class to set on input when input is valid
@@ -63,13 +66,18 @@ var field = new InputView({
         }
     ],
     // optional, you can pass in the parent view explicitly
-    parent:  someViewInstance 
+    parent:  someViewInstance
 });
 
 // append it somewhere or use it in side an ampersand-form-view
 document.querySelector('form').appendChild(field.el);
 
 ```
+
+## changelog
+
+- 2.1.0 - Can now set `rootElementClass`. Add reset function #15. Allow setting `0` as value #17.
+- 2.0.2 - Make sure templates can be passed in, in constructor.
 
 ## credits
 

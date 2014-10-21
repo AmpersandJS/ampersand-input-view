@@ -1,5 +1,6 @@
 var test = require('tape');
 var InputView = require('../ampersand-input-view');
+var customTemplate = '<label class="custominput"><span data-hook="label"></span><input><div data-hook="message-container"><p data-hook="message-text"></p></div></label>';
 if (!Function.prototype.bind) Function.prototype.bind = require('function-bind');
 
 function isHidden(el) {
@@ -31,6 +32,61 @@ test('initialize with value', function (t) {
     t.end();
 });
 
+test('can initialize with template without having to extend', function (t) {
+    var input = new InputView({
+        name: 'title',
+        value: 'Once upon a time',
+        template: customTemplate
+    });
+
+    input.render();
+
+    t.equal(input.el.className, 'custominput');
+    t.end();
+});
+
+test('should be able to extend a template as well', function (t) {
+    var input = new (InputView.extend({
+        template: customTemplate
+    }))({name: 'title',
+        value: 'Once upon a time',
+    });
+
+    input.render();
+
+    t.equal(input.el.className, 'custominput');
+    t.end();
+
+    input.render();
+});
+
+test('reset value', function (t) {
+    var input = new InputView({
+        name: 'title',
+        value: 'My time here is short'
+    });
+
+    input.render();
+    input.reset();
+    input.render();
+
+    t.equal(input.el.querySelector('input').value, '', 'Value should be reset');
+    t.end();
+});
+
+test('initalize with a value of `0`', function(t) {
+    var input = new InputView({
+        name: 'title',
+        type: 'number',
+        value: 0
+    });
+
+    input.render();
+
+    t.equal(parseFloat(input.el.querySelector('input').value), 0);
+    t.end();
+});
+
 test('Tests with required true and false', function (t) {
     var inputs = [
         new InputView({
@@ -38,7 +94,7 @@ test('Tests with required true and false', function (t) {
             required: true,
             tests: [
                 function (val) {
-                    if (val.length < 5) return "Must be 5+ characters.";
+                    if (val.length < 5) return 'Must be 5+ characters.';
                 }
             ]
         }),
@@ -47,7 +103,7 @@ test('Tests with required true and false', function (t) {
             required: false,
             tests: [
                 function (val) {
-                    if (val.length < 5) return "Must be 5+ characters.";
+                    if (val.length < 5) return 'Must be 5+ characters.';
                 }
             ]
         }),
@@ -61,7 +117,7 @@ test('Tests with required true and false', function (t) {
 
         //"Trigger change events"
         //TODO: this should be real dom events
-        inputElement.value = "O";
+        inputElement.value = 'O';
         input.handleInputChanged();
 
         // At this point we are not yet blurred so there should no messages or classes
@@ -74,6 +130,7 @@ test('Tests with required true and false', function (t) {
         inputElement.value = '';
         input.handleInputChanged();
 
+
         // should still not show errors
         t.notOk(input.valid, 'Input should be invalid');
         t.ok(isHidden(messageContainer), 'Message should not be visible');
@@ -81,7 +138,7 @@ test('Tests with required true and false', function (t) {
         t.notOk(hasClass(inputElement, 'input-valid'), 'Doest not have valid class');
 
         // Blur to trigger invalid message/class
-        inputElement.value = "O";
+        inputElement.value = 'O';
         input.handleInputChanged();
         input.handleBlur();
 
@@ -91,7 +148,7 @@ test('Tests with required true and false', function (t) {
         t.notOk(hasClass(inputElement, 'input-valid'), 'Does not have valid class');
 
         //"Trigger change events again"
-        inputElement.value = "Once upon a time!";
+        inputElement.value = 'Once upon a time!';
         input.handleInputChanged();
         input.handleBlur();
 
@@ -100,6 +157,23 @@ test('Tests with required true and false', function (t) {
         t.notOk(hasClass(inputElement, 'input-invalid'), 'Does not have invalid class');
         t.ok(hasClass(inputElement, 'input-valid'), 'Has valid class');
     });
+
+    t.end();
+});
+
+test('allow setting root element class', function (t) {
+    var input = new InputView();
+    input.render();
+    t.equal(input.el.className, '');
+
+    input = new InputView({
+        rootElementClass: 'something'
+    });
+    input.render();
+
+    t.equal(input.el.className, 'something');
+    input.rootElementClass = 'somethingelse';
+    t.equal(input.el.className, 'somethingelse');
 
     t.end();
 });

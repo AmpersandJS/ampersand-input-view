@@ -42,15 +42,21 @@ module.exports = View.extend({
         'validityClass': {
             type: 'class',
             selector: 'input, textarea'
+        },
+        'rootElementClass': {
+            type: 'class',
+            selector: ''
         }
     },
     initialize: function (spec) {
+        spec || (spec = {});
         this.tests = this.tests || spec.tests || [];
         this.on('change:type', this.handleTypeChange, this);
         this.handleBlur = this.handleBlur.bind(this);
         this.handleInputChanged = this.handleInputChanged.bind(this);
         this.startingValue = this.value;
         this.on('change:valid change:value', this.reportToParent, this);
+        if (spec.template) this.template = spec.template;
     },
     render: function () {
         this.renderWithTemplate();
@@ -75,7 +81,8 @@ module.exports = View.extend({
         message: ['string', true, ''],
         requiredMessage: ['string', true, 'This field is required.'],
         validClass: ['string', true, 'input-valid'],
-        invalidClass: ['string', true, 'input-invalid']
+        invalidClass: ['string', true, 'input-invalid'],
+        rootElementClass: ['string', true, '']
     },
     derived: {
         valid: {
@@ -109,7 +116,7 @@ module.exports = View.extend({
     },
     setValue: function (value, skipValidation) {
         this.value = value;
-        if (!this.value) {
+        if (!value && value !== 0) {
             this.input.value = '';
         } else {
             this.input.value = this.value.toString();
@@ -182,6 +189,9 @@ module.exports = View.extend({
         this.input.removeEventListener('input', this.handleInputChanged, false);
         this.input.removeEventListener('blur', this.handleBlur, false);
         View.prototype.remove.apply(this, arguments);
+    },
+    reset: function () {
+        this.setValue('');
     },
     reportToParent: function () {
         if (this.parent) this.parent.update(this);
