@@ -1,7 +1,8 @@
 {
   "browserify": true,
 
-  "curly": true,
+  "expr": true,
+  "curly": false,
   "latedef": true,
   "quotmark": true,
   "undef": true,

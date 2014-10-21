@@ -104,7 +104,7 @@ test('value must be entered if required', function (t) {
 
     //"Trigger chnage events"
     //TODO: this should be real dom events
-    inputElement.value = "O";
+    inputElement.value = '0';
     input.handleInputChanged();
     input.handleBlur();
 
@@ -114,7 +114,7 @@ test('value must be entered if required', function (t) {
     t.notOk(hasClass(inputElement, 'input-valid'), 'Has valid class');
 
     //"Trigger change events again"
-    inputElement.value = "Once upon a time!";
+    inputElement.value = 'Once upon a time!';
     input.handleInputChanged();
     input.handleBlur();
 
