@@ -31,41 +31,75 @@ test('initialize with value', function (t) {
     t.end();
 });
 
-test('value must be entered if required', function (t) {
-    var input = new InputView({
-        name: 'title',
-        required: true,
-        tests: [
-            function (val) {
-                if (val.length < 5) return "Must be 5+ characters.";
-            }
-        ]
+test('Tests with required true and false', function (t) {
+    var inputs = [
+        new InputView({
+            name: 'title',
+            required: true,
+            tests: [
+                function (val) {
+                    if (val.length < 5) return "Must be 5+ characters.";
+                }
+            ]
+        }),
+        new InputView({
+            name: 'title',
+            required: false,
+            tests: [
+                function (val) {
+                    if (val.length < 5) return "Must be 5+ characters.";
+                }
+            ]
+        }),
+    ];
+
+    inputs.forEach(function (input) {
+        input.render();
+
+        var inputElement = input.el.querySelector('input');
+        var messageContainer = input.el.querySelector('[data-hook=message-container]');
+
+        //"Trigger change events"
+        //TODO: this should be real dom events
+        inputElement.value = "O";
+        input.handleInputChanged();
+
+        // At this point we are not yet blurred so there should no messages or classes
+        t.notOk(input.valid, 'Input should be invalid');
+        t.ok(isHidden(messageContainer), 'Message should not be visible');
+        t.notOk(hasClass(inputElement, 'input-invalid'), 'Does not have invalid class');
+        t.notOk(hasClass(inputElement, 'input-valid'), 'Doest not have valid class');
+
+        // Another change to an empty state
+        inputElement.value = '';
+        input.handleInputChanged();
+
+        // should still not show errors
+        t.notOk(input.valid, 'Input should be invalid');
+        t.ok(isHidden(messageContainer), 'Message should not be visible');
+        t.notOk(hasClass(inputElement, 'input-invalid'), 'Does not have invalid class');
+        t.notOk(hasClass(inputElement, 'input-valid'), 'Doest not have valid class');
+
+        // Blur to trigger invalid message/class
+        inputElement.value = "O";
+        input.handleInputChanged();
+        input.handleBlur();
+
+        t.notOk(input.valid, 'Input should be invalid');
+        t.notOk(isHidden(messageContainer), 'Message should be visible');
+        t.ok(hasClass(inputElement, 'input-invalid'), 'Has invalid class');
+        t.notOk(hasClass(inputElement, 'input-valid'), 'Does not have valid class');
+
+        //"Trigger change events again"
+        inputElement.value = "Once upon a time!";
+        input.handleInputChanged();
+        input.handleBlur();
+
+        t.ok(input.valid, 'Input should be valid');
+        t.ok(isHidden(messageContainer), 'Message should not be visible');
+        t.notOk(hasClass(inputElement, 'input-invalid'), 'Does not have invalid class');
+        t.ok(hasClass(inputElement, 'input-valid'), 'Has valid class');
     });
-    input.render();
-
-    var inputElement = input.el.querySelector('input');
-    var messageContainer = input.el.querySelector('[data-hook=message-container]');
-
-    //"Trigger chnage events"
-    //TODO: this should be real dom events
-    inputElement.value = "O";
-    input.handleInputChanged();
-    input.handleBlur();
-
-    t.notOk(input.valid, 'Input should be invalid');
-    t.notOk(isHidden(messageContainer), 'Message should be visible');
-    t.ok(hasClass(inputElement, 'input-invalid'), 'Has invalid class');
-    t.notOk(hasClass(inputElement, 'input-valid'), 'Has valid class');
-
-    //"Trigger change events again"
-    inputElement.value = "Once upon a time!";
-    input.handleInputChanged();
-    input.handleBlur();
-
-    t.ok(input.valid, 'Input should be valid');
-    t.ok(isHidden(messageContainer), 'Message should not be visible');
-    t.notOk(hasClass(inputElement, 'input-invalid'), 'Does not have invalid class');
-    t.ok(hasClass(inputElement, 'input-valid'), 'Has valid class');
 
     t.end();
 });
