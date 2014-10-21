@@ -60,7 +60,6 @@ test('should be able to extend a template as well', function (t) {
     input.render();
 });
 
-
 test('reset value', function (t) {
     var input = new InputView({
         name: 'title',
@@ -123,6 +122,23 @@ test('value must be entered if required', function (t) {
     t.ok(isHidden(messageContainer), 'Message should not be visible');
     t.notOk(hasClass(inputElement, 'input-invalid'), 'Does not have invalid class');
     t.ok(hasClass(inputElement, 'input-valid'), 'Has valid class');
+
+    t.end();
+});
+
+test('allow setting root element class', function (t) {
+    var input = new InputView();
+    input.render();
+    t.equal(input.el.className, '');
+
+    input = new InputView({
+        rootElementClass: 'something'
+    });
+    input.render();
+
+    t.equal(input.el.className, 'something');
+    input.rootElementClass = 'somethingelse';
+    t.equal(input.el.className, 'somethingelse');
 
     t.end();
 });

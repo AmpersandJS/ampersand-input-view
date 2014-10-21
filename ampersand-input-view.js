@@ -42,9 +42,14 @@ module.exports = View.extend({
         'validityClass': {
             type: 'class',
             selector: 'input, textarea'
+        },
+        'rootElementClass': {
+            type: 'class',
+            selector: ''
         }
     },
     initialize: function (spec) {
+        spec || (spec = {});
         this.tests = this.tests || spec.tests || [];
         this.on('change:type', this.handleTypeChange, this);
         this.handleBlur = this.handleBlur.bind(this);
@@ -74,7 +79,8 @@ module.exports = View.extend({
         message: ['string', true, ''],
         requiredMessage: ['string', true, 'This field is required.'],
         validClass: ['string', true, 'input-valid'],
-        invalidClass: ['string', true, 'input-invalid']
+        invalidClass: ['string', true, 'input-invalid'],
+        rootElementClass: ['string', true, '']
     },
     derived: {
         valid: {
