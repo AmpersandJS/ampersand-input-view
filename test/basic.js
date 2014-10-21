@@ -142,3 +142,74 @@ test('allow setting root element class', function (t) {
 
     t.end();
 });
+
+test('validityClass is present on submit even if unchanged', function (t) {
+    [
+        new InputView({
+            name: 'title',
+            required: true
+        }),
+        new InputView({
+            name: 'title',
+            required: true,
+            value: ''
+        })
+    ].forEach(function (input) {
+        input.render();
+
+        var inputElement = input.el.querySelector('input');
+        var messageContainer = input.el.querySelector('[data-hook=message-container]');
+
+        // "Trigger submit on the input"
+        // TODO: should we pull in form-view and do a dom submit event?
+        input.beforeSubmit();
+
+        t.notOk(input.valid, 'Input should be invalid');
+        t.notOk(isHidden(messageContainer), 'Message should be visible');
+        t.ok(hasClass(inputElement, 'input-invalid'), 'Has invalid class');
+        t.notOk(hasClass(inputElement, 'input-valid'), 'Does not have valid class');
+    });
+
+    t.end();
+});
+
+test('Required views display message and class after edited', function (t) {
+    [
+        new InputView({
+            name: 'title',
+            required: true
+        }),
+        new InputView({
+            name: 'title',
+            required: true,
+            value: ''
+        })
+    ].forEach(function (input) {
+        input.render();
+
+        var inputElement = input.el.querySelector('input');
+        var messageContainer = input.el.querySelector('[data-hook=message-container]');
+
+        inputElement.value = 'Required string';
+        input.handleInputChanged();
+        input.handleBlur();
+
+        t.ok(input.valid, 'Input should be valid');
+        t.ok(isHidden(messageContainer), 'Message should not be visible');
+        t.notOk(hasClass(inputElement, 'input-invalid'), 'Does not have invalid class');
+        t.ok(hasClass(inputElement, 'input-valid'), 'Has valid class');
+
+        // Changing the value back to an empty string should show invalid
+        // message and class even though it is technically "unchanged"
+        inputElement.value = '';
+        input.handleInputChanged();
+        input.handleBlur();
+
+        t.notOk(input.valid, 'Input should be invalid');
+        t.notOk(isHidden(messageContainer), 'Message should be visible');
+        t.ok(hasClass(inputElement, 'input-invalid'), 'Has invalid class');
+        t.notOk(hasClass(inputElement, 'input-valid'), 'Does not have valid class');
+    });
+
+    t.end();
+});

@@ -102,9 +102,9 @@ module.exports = View.extend({
             }
         },
         validityClass: {
-            deps: ['valid', 'validClass', 'invalidClass', 'shouldValidate', 'changed'],
+            deps: ['valid', 'validClass', 'invalidClass', 'shouldValidate'],
             fn: function () {
-                if (!this.shouldValidate || !this.changed) {
+                if (!this.shouldValidate) {
                     return '';
                 } else {
                     return this.valid ? this.validClass : this.invalidClass;
