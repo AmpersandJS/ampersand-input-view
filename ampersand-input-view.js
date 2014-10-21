@@ -54,7 +54,8 @@ module.exports = View.extend({
         this.on('change:type', this.handleTypeChange, this);
         this.handleBlur = this.handleBlur.bind(this);
         this.handleInputChanged = this.handleInputChanged.bind(this);
-        this.startingValue = this.value;
+        this.startingValue = spec.value;
+        this.inputValue = spec.value;
         this.on('change:valid change:value', this.reportToParent, this);
         if (spec.template) this.template = spec.template;
     },
@@ -64,10 +65,10 @@ module.exports = View.extend({
         // switches out input for textarea if that's what we want
         this.handleTypeChange();
         this.initInputBindings();
-        this.setValue(this.value);
+        this.setValue(this.inputValue);
     },
     props: {
-        value: 'any',
+        inputValue: 'any',
         startingValue: 'any',
         name: 'string',
         type: ['string', true, 'text'],
@@ -83,8 +84,14 @@ module.exports = View.extend({
         rootElementClass: ['string', true, '']
     },
     derived: {
+        value: {
+            deps: ['inputValue'],
+            fn: function () {
+                return this.inputValue;
+            }
+        },
         valid: {
-            deps: ['value'],
+            deps: ['inputValue'],
             fn: function () {
                 return !this.runTests();
             }
@@ -96,9 +103,9 @@ module.exports = View.extend({
             }
         },
         changed: {
-            deps: ['value', 'startingValue'],
+            deps: ['inputValue', 'startingValue'],
             fn: function () {
-                return this.value !== this.startingValue;
+                return this.inputValue !== this.startingValue;
             }
         },
         validityClass: {
@@ -113,7 +120,7 @@ module.exports = View.extend({
         }
     },
     setValue: function (value) {
-        this.value = value;
+        this.inputValue = value;
         if (!value && value !== 0) {
             this.input.value = '';
         } else {
@@ -150,13 +157,13 @@ module.exports = View.extend({
         if (document.activeElement === this.input) {
             this.directlyEdited = true;
         }
-        this.value = this.clean(this.input.value);
+        this.inputValue = this.clean(this.input.value);
     },
     clean: function (val) {
         return (this.type === 'number') ? Number(val) : val.trim();
     },
     handleBlur: function () {
-        if (this.value && this.changed) {
+        if (this.inputValue && this.changed) {
             this.shouldValidate = true;
         }
         this.runTests();
@@ -170,7 +177,7 @@ module.exports = View.extend({
     },
     runTests: function () {
         var message = this.getErrorMessage();
-        if (!message && this.value && this.changed) {
+        if (!message && this.inputValue && this.changed) {
             // if it's ever been valid,
             // we want to validate from now
             // on.
