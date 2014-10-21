@@ -182,6 +182,9 @@ module.exports = View.extend({
         this.input.removeEventListener('blur', this.handleBlur, false);
         View.prototype.remove.apply(this, arguments);
     },
+    reset: function () {
+        this.setValue('');
+    },
     reportToParent: function () {
         if (this.parent) this.parent.update(this);
     }

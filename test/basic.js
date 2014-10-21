@@ -60,13 +60,28 @@ test('should be able to extend a template as well', function (t) {
     input.render();
 });
 
+
+test('reset value', function (t) {
+    var input = new InputView({
+        name: 'title',
+        value: 'My time here is short'
+    });
+
+    input.render();
+    input.reset();
+    input.render();
+
+    t.equal(input.el.querySelector('input').value, '', 'Value should be reset');
+    t.end();
+});
+
 test('value must be entered if required', function (t) {
     var input = new InputView({
         name: 'title',
         required: true,
         tests: [
             function (val) {
-                if (val.length < 5) return "Must be 5+ characters.";
+                if (val.length < 5) return 'Must be 5+ characters.';
             }
         ]
     });
