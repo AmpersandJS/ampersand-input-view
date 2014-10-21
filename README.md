@@ -76,6 +76,7 @@ document.querySelector('form').appendChild(field.el);
 
 ## changelog
 
+- 2.1.0 - Can now set `rootElementClass`. Add reset function #15. Allow setting `0` as value #17.
 - 2.0.2 - Make sure templates can be passed in, in constructor.
 
 ## credits
