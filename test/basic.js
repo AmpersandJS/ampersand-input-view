@@ -142,3 +142,39 @@ test('allow setting root element class', function (t) {
 
     t.end();
 });
+
+test('value reports changed in cases where it shouldnt', function (t) {
+    [
+        new InputView({
+            name: 'title'
+        }),
+        new InputView({
+            name: 'title',
+            value: ''
+        }),
+        new InputView({
+            name: 'title',
+            value: null
+        })
+    ].forEach(function (input) {
+        input.render();
+
+        var inputElement = input.el.querySelector('input');
+
+        // Trigger chnage events
+        inputElement.value = '0';
+        input.handleInputChanged();
+        t.ok(input.changed, 'Input is changed');
+
+        // Trigger change events again
+        inputElement.value = '';
+        input.handleInputChanged();
+        t.notOk(input.changed, 'Input is not changed when empty string');
+
+        inputElement.value = null;
+        input.handleInputChanged();
+        t.notOk(input.changed, 'Input is not changed when null');
+    });
+
+    t.end();
+});

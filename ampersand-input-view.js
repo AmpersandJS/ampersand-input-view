@@ -1,5 +1,13 @@
 var View = require('ampersand-view');
 
+function getString(val) {
+    if (!val && val !== 0) {
+        return '';
+    } else {
+        return val;
+    }
+}
+
 
 module.exports = View.extend({
     template: [
@@ -98,7 +106,7 @@ module.exports = View.extend({
         changed: {
             deps: ['value', 'startingValue'],
             fn: function () {
-                return this.value !== this.startingValue;
+                return getString(this.value) !== getString(this.startingValue);
             }
         },
         validityClass: {
