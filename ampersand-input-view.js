@@ -1,13 +1,5 @@
 var View = require('ampersand-view');
 
-function getString(val) {
-    if (!val && val !== 0) {
-        return '';
-    } else {
-        return val;
-    }
-}
-
 
 module.exports = View.extend({
     template: [
@@ -62,7 +54,9 @@ module.exports = View.extend({
         this.on('change:type', this.handleTypeChange, this);
         this.handleBlur = this.handleBlur.bind(this);
         this.handleInputChanged = this.handleInputChanged.bind(this);
-        this.startingValue = this.value;
+        var value = !spec.value && spec.value !== 0 ? '' : spec.value;
+        this.startingValue = value;
+        this.inputValue = value;
         this.on('change:valid change:value', this.reportToParent, this);
         if (spec.template) this.template = spec.template;
     },
@@ -72,10 +66,12 @@ module.exports = View.extend({
         // switches out input for textarea if that's what we want
         this.handleTypeChange();
         this.initInputBindings();
-        this.setValue(this.value);
+        // Skip validation on initial setValue
+        // if the field is not required
+        this.setValue(this.inputValue, !this.required);
     },
     props: {
-        value: 'any',
+        inputValue: 'any',
         startingValue: 'any',
         name: 'string',
         type: ['string', true, 'text'],
@@ -91,8 +87,14 @@ module.exports = View.extend({
         rootElementClass: ['string', true, '']
     },
     derived: {
+        value: {
+            deps: ['inputValue'],
+            fn: function () {
+                return this.inputValue;
+            }
+        },
         valid: {
-            deps: ['value'],
+            deps: ['inputValue'],
             fn: function () {
                 return !this.runTests();
             }
@@ -104,15 +106,15 @@ module.exports = View.extend({
             }
         },
         changed: {
-            deps: ['value', 'startingValue'],
+            deps: ['inputValue', 'startingValue'],
             fn: function () {
-                return getString(this.value) !== getString(this.startingValue);
+                return this.inputValue !== this.startingValue;
             }
         },
         validityClass: {
-            deps: ['valid', 'validClass', 'invalidClass', 'shouldValidate', 'changed'],
+            deps: ['valid', 'validClass', 'invalidClass', 'shouldValidate'],
             fn: function () {
-                if (!this.shouldValidate || !this.changed) {
+                if (!this.shouldValidate) {
                     return '';
                 } else {
                     return this.valid ? this.validClass : this.invalidClass;
@@ -120,14 +122,14 @@ module.exports = View.extend({
             }
         }
     },
-    setValue: function (value) {
-        this.value = value;
+    setValue: function (value, skipValidation) {
         if (!value && value !== 0) {
             this.input.value = '';
         } else {
-            this.input.value = this.value.toString();
+            this.input.value = value.toString();
         }
-        if (!this.getErrorMessage(this.value)) {
+        this.inputValue = this.input.value;
+        if (!skipValidation && !this.getErrorMessage()) {
             this.shouldValidate = true;
         }
     },
@@ -158,13 +160,13 @@ module.exports = View.extend({
         if (document.activeElement === this.input) {
             this.directlyEdited = true;
         }
-        this.value = this.clean(this.input.value);
+        this.inputValue = this.clean(this.input.value);
     },
     clean: function (val) {
         return (this.type === 'number') ? Number(val) : val.trim();
     },
     handleBlur: function () {
-        if (this.value && this.changed) {
+        if (this.inputValue && this.changed) {
             this.shouldValidate = true;
         }
         this.runTests();
@@ -178,7 +180,7 @@ module.exports = View.extend({
     },
     runTests: function () {
         var message = this.getErrorMessage();
-        if (!message && this.value && this.changed) {
+        if (!message && this.inputValue && this.changed) {
             // if it's ever been valid,
             // we want to validate from now
             // on.
