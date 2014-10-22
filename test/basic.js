@@ -62,15 +62,54 @@ test('should be able to extend a template as well', function (t) {
 
 test('reset value', function (t) {
     var input = new InputView({
-        name: 'title',
-        value: 'My time here is short'
+        name: 'title'
     });
-
     input.render();
+    input.setValue('something');
+    t.equal(input.input.value, 'something', 'Value should be updated');
     input.reset();
+    t.equal(input.input.value, '', 'Value should be reset');
+
+    var input2 = new InputView({
+        name: 'title',
+        value: 'start'
+    });
+    input2.render();
+    t.equal(input2.input.value, 'start', 'Value should be set initially');
+    input2.setValue('somethingelse');
+    t.equal(input2.input.value, 'somethingelse', 'value should be updated');
+    input2.reset();
+    t.equal(input2.input.value, 'start', 'value should have been reset to original');
+
+    t.end();
+});
+
+test('clear', function (t) {
+    var input = new InputView({
+        name: 'title',
+        value: 'something'
+    });
     input.render();
 
-    t.equal(input.el.querySelector('input').value, '', 'Value should be reset');
+    t.equal(input.input.value, 'something');
+    input.reset();
+    t.equal(input.input.value, 'something', 'reset should do nothing');
+    input.clear();
+    t.equal(input.input.value, '');
+    t.equal(input.value, '');
+
+    var input2 = new InputView({
+        name: 'thing'
+    });
+    input2.render();
+    t.equal(input2.value, '');
+    input2.setValue('thing');
+    t.equal(input2.input.value, 'thing');
+    t.equal(input2.value, 'thing');
+    input2.clear();
+    t.equal(input2.input.value, '');
+    t.equal(input2.value, '');
+
     t.end();
 });
 
