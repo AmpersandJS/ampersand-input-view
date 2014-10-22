@@ -126,7 +126,6 @@ module.exports = View.extend({
         if (!value && value !== 0) {
             this.input.value = '';
         } else {
-            console.log(value.toString);
             this.input.value = value.toString();
         }
         this.inputValue = this.input.value;
