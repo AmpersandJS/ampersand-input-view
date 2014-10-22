@@ -238,6 +238,23 @@ var myInput = new InputView({
 *note:* you can still do `required: true` and pass tests. If you do it will check if it's not empty first and show the `requiredMessage` error if empty. Note that the input will only show one error per field at a time. This is to minimize annoyance. We don't want to show "this field is required" and every other error if they just left it empty. We just show the first one that fails, then when they go to correct it, it will change as they type to the other error or the error will disappear once valid. 
 
 
+### setValue `inputView.setValue([value], [skipValidation|bool])`
+
+Setter for value that will fire all appropriate handlers/tests. Can also be done by user input or setting value of `input` manually.
+
+Passing `true` as second argument will skip validation. This is mainly for internal use.
+
+
+### reset `inputView.reset()`
+
+Set value to back original value. If you passed a `value` when creating the view it will reset to that, otherwise to `''`. 
+
+
+### clear `inputView.clear()`
+
+Sets value to `''` no matter what previous values were.
+
+
 ## changelog
 
 - 3.0.0 - Add API reference docs. Add `.clear()`, `.reset()` methods. Make `value` derived property. Fix #21 validity class issue.
