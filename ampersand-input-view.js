@@ -199,7 +199,7 @@ module.exports = View.extend({
         View.prototype.remove.apply(this, arguments);
     },
     reset: function () {
-        this.setValue('');
+        this.setValue(this.startingValue);
     },
     reportToParent: function () {
         if (this.parent) this.parent.update(this);
