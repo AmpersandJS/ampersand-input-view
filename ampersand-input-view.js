@@ -65,7 +65,9 @@ module.exports = View.extend({
         // switches out input for textarea if that's what we want
         this.handleTypeChange();
         this.initInputBindings();
-        this.setValue(this.inputValue);
+        // Skip validation on initial setValue
+        // if the field is not required
+        this.setValue(this.inputValue, !this.required);
     },
     props: {
         inputValue: 'any',
@@ -119,14 +121,14 @@ module.exports = View.extend({
             }
         }
     },
-    setValue: function (value) {
+    setValue: function (value, skipValidation) {
         this.inputValue = value;
         if (!value && value !== 0) {
             this.input.value = '';
         } else {
             this.input.value = this.value.toString();
         }
-        if (!this.getErrorMessage(this.value)) {
+        if (!skipValidation && !this.getErrorMessage()) {
             this.shouldValidate = true;
         }
     },
