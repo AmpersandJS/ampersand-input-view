@@ -257,6 +257,7 @@ Sets value to `''` no matter what previous values were.
 
 ## changelog
 
+- 3.1.0 - Add [ampersand-version](https://github.com/ampersandjs/ampersand-version) for version tracking.
 - 3.0.0 - Add API reference docs. Add `.clear()`, `.reset()` methods. Make `value` derived property. Fix #21 validity class issue.
 - 2.1.0 - Can now set `rootElementClass`. Add reset function #15. Allow setting `0` as value #17.
 - 2.0.2 - Make sure templates can be passed in, in constructor.

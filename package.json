@@ -3,10 +3,16 @@
   "description": "A view module for intelligently rendering and validating input. Works well with ampersand-form-view.",
   "version": "3.0.0",
   "author": "Henrik Joreteg <henrik@andyet.net>",
+  "browserify": {
+    "transform": [
+      "ampersand-version"
+    ]
+  },
   "bugs": {
     "url": "https://github.com/ampersandjs/ampersand-input-view/issues"
   },
   "dependencies": {
+    "ampersand-version": "^1.0.1",
     "ampersand-view": "^7.0.0"
   },
   "devDependencies": {

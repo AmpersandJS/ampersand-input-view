@@ -1,3 +1,4 @@
+/*$AMPERSAND_VERSION*/
 var View = require('ampersand-view');
 
 
