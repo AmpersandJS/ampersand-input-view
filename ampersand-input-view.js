@@ -42,7 +42,7 @@ module.exports = View.extend({
         },
         'validityClass': {
             type: 'class',
-            selector: 'input, textarea, .form-group'
+            selector: 'input, textarea'
         },
         'rootElementClass': {
             type: 'class',
