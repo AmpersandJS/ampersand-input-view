@@ -42,7 +42,7 @@ module.exports = View.extend({
         },
         'validityClass': {
             type: 'class',
-            selector: 'input, textarea'
+            selector: 'input, textarea, .form-group'
         },
         'rootElementClass': {
             type: 'class',
@@ -132,6 +132,8 @@ module.exports = View.extend({
         this.inputValue = this.input.value;
         if (!skipValidation && !this.getErrorMessage()) {
             this.shouldValidate = true;
+        } else if(skipValidation) {
+            this.shouldValidate = false;
         }
     },
     getErrorMessage: function () {
@@ -202,8 +204,8 @@ module.exports = View.extend({
     reset: function () {
         this.setValue(this.startingValue);
     },
-    clear: function () {
-        this.setValue('');
+    clear: function (skipValidation) {
+        this.setValue('', skipValidation);
     },
     reportToParent: function () {
         if (this.parent) this.parent.update(this);
