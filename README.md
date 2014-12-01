@@ -109,7 +109,7 @@ Creating a new class:
 
 ```javascript
 // creating a custom input that has an alternate template
-var CustomInput = AmpersandInput.extend({
+var CustomInput = AmpersandInputView.extend({
     template: [
         '<label>',
             '<input class="form-input">',
@@ -129,19 +129,19 @@ Setting the template when instantiating it:
 
 ```
 // Or you can also pass it in when creating the instance
-var myInput = new AmpersandInput({
+var myInput = new AmpersandInputView({
     template: myCustomTemplateStringOrFunction
 });
 ```
 
-### value `new AmpersandInput({ value: 'something' })`
+### value `new AmpersandInputView({ value: 'something' })`
 
 If passed when creating the original input it will be set in the input element and also be tracked as `startingValue`.
 
 This is also the value that will be reverted to if we call `.reset()` on the input.
 
 ```javascript
-var myInput = new AmpersandInput({
+var myInput = new AmpersandInputView({
     name: 'company name',
     value: '&yet'
 });
@@ -164,7 +164,7 @@ Say you're making a validated address input. You may have a single text input fo
 Do it by overwriting the `value` derived property as follows:
 
 ```javascript
-var VerifiedAddressInput = AmpersandInput.extend({
+var VerifiedAddressInput = AmpersandInputView.extend({
     initialize: function () {
         // call parent constructor
         AmpersandInputView.prototype.initialize.call(apply, arguments);
