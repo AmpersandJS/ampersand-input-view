@@ -103,7 +103,7 @@ But the resulting HTML should contain the following hooks:
 - an `<input>` or `<textarea>` element
 - an element with a `data-hook="label"` attribute
 - an element with a `data-hook="message-container"` attribute (this we'll show/hide)
-- an elememt with a `data-hook="message-text"` attribute (where message text goes for error)
+- an element with a `data-hook="message-text"` attribute (where message text goes for error)
 
 Creating a new class:
 
