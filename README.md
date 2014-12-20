@@ -7,7 +7,7 @@ It does the following:
 - Automatically shows/hides error messages based on tests
 - Will not show error messages pre-submit or if it's never had a valid value. This lets people tab-through a form without triggering a bunch of error messages.
 - Live-validates to always report if in valid state, but only shows messages when sane to do so.
-- Only shows first failed message, then as user goes to correct, updates and validates against all tests, showing appripriate message until all tests pass.
+- Only shows first failed message, then as user goes to correct, updates and validates against all tests, showing appropriate message until all tests pass.
 
 It's built on [ampersand-view](https://github.com/AmpersandJS/ampersand-view) so it can be extended with `extend` as you might expect.
 
