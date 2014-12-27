@@ -80,7 +80,7 @@ When creating an instance of an input view, you can pass in the initial values o
 - template: a custom template to use (see 'template' section below for more).
 - placeholder: optional value used as placeholder in input.
 - el: optional element if you want to render it into a specific exisiting element pass it on initialization.
-- required (default: `false`): whether this field is required or not.
+- required (default: `true`): whether this field is required or not.
 - requiredMessage (default: `'This field is required'`): message to use if required and empty.
 - tests (default: `[]`): test function to run on input (more below).
 - validClass (defalt: `'input-valid'`): class to apply to input if valid.
