@@ -74,7 +74,7 @@ module.exports = View.extend({
     props: {
         inputValue: 'any',
         startingValue: 'any',
-        name: ['string', true, ''],
+        name: 'string',
         type: ['string', true, 'text'],
         placeholder: ['string', true, ''],
         label: ['string', true, ''],

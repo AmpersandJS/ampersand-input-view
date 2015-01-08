@@ -74,7 +74,7 @@ When creating an instance of an input view, you can pass in the initial values o
 
 #### opts
 
-- name (required): name to use for input tag name and name used when reporting to parent form.
+- name : name to use for input tag name and name used when reporting to parent form.
 - type (default: `'text'`): input type to use, can be any valid HTML5 input type.
 - value: initial value to set it to.
 - template: a custom template to use (see 'template' section below for more).
