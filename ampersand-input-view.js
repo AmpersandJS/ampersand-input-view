@@ -70,6 +70,7 @@ module.exports = View.extend({
         // Skip validation on initial setValue
         // if the field is not required
         this.setValue(this.inputValue, !this.required);
+        return this;
     },
     props: {
         inputValue: 'any',

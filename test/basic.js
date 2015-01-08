@@ -20,6 +20,13 @@ test('basic initialization', function (t) {
     t.end();
 });
 
+test('should return view on render', function(t){
+    var input = new InputView({ name: 'title' });
+    var rendered = input.render();
+    t.equal(input,rendered);
+    t.end();
+});
+
 test('initialize with value', function (t) {
     var input = new InputView({
         name: 'title',
