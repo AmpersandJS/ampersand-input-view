@@ -74,7 +74,7 @@ When creating an instance of an input view, you can pass in the initial values o
 
 #### opts
 
-- name (required): name to use for input tag name and name used when reporting to parent form.
+- name : name to use for input tag name and name used when reporting to parent form.
 - type (default: `'text'`): input type to use, can be any valid HTML5 input type.
 - value: initial value to set it to.
 - template: a custom template to use (see 'template' section below for more).
@@ -85,6 +85,7 @@ When creating an instance of an input view, you can pass in the initial values o
 - tests (default: `[]`): test function to run on input (more below).
 - validClass (defalt: `'input-valid'`): class to apply to input if valid.
 - invalidClass (defalt: `'input-invalid'`): class to apply to input if invalid.
+- rootElementClass: class to apply to root element of view. 
 - parent: a view instance to use as the parent for this input. If used in a form view, the form sets this for you.
 
 
@@ -155,6 +156,8 @@ myInput.reset();
 console.log(myInput.input.value); //=> '&yet'
 ```
 
+### Customizing the view
+
 #### Custom calculated output `value`
 
 If you need to decouple what the user enters into the form from what the resulting value is that gets passed by the form you can do that by overwriting the `value` derived property.
@@ -210,6 +213,30 @@ var VerifiedAddressInput = AmpersandInputView.extend({
             this.verifiedAddress = result;
         });
     }
+});
+```
+
+#### Multiple classes for `rootElementClass`
+Another example might be that your designers want you to use multiple class names for the root element of your view. For example, `ui field` if you were using something like [Semantic UI](http://semantic-ui.com/).  You may want to try something like this:
+
+```javascript
+var styledInputView = new InputView({
+    // other properties
+    rootElementClass : 'ui field' // currently this doesn't work
+});
+```
+This is because `rootElementClass` needs to be a single class at least for now.  Luckily, its easy to customize this for your needs.  Since this view extends ampersand-view, you just need to extend it and overwrite `rootElementClass` to handle arrays:
+
+```javascript
+var CustomInputView = InputView.extend({
+    props : {
+        rootElementClass : ['array']
+    }
+});
+
+var styledInputView = new CustomInputView({
+    // other properties
+    rootElementClass : ['ui', 'field']
 });
 ```
 
