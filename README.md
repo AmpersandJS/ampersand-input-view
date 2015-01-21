@@ -46,7 +46,7 @@ module.exports = FormView.extend({
 
 ### extend `AmpersandInputView.extend({ })`
 
-Since this view is based on [ampersand-state](http://ampersandjs.com/docs#ampersand-state), it can be extended in the same way. 
+Since this view is based on [ampersand-state](http://ampersandjs.com/docs#ampersand-state), it can be extended in the same way.
 
 To create an **`InputView`** class of your own, you extend **`AmpersandInputView`** and provide instance properties and options for your class. Here, you will typically pass any properties (`props`, `session`, and `derived`) of your state class, and any methods to be attached to instances of your class.
 
@@ -62,7 +62,7 @@ var MyCustomInput = AmpersandInputView.extend({
         AmpersandInputView.prototype.initialize.call(apply, arguments);
 
         // do whatever else you need to do on init here
-    } 
+    }
 });
 ```
 
@@ -79,13 +79,13 @@ When creating an instance of an `InputView`, you can pass in the initial values 
 - `value`: initial value for the `<input>`.
 - `template`: a custom template to use (see 'template' section, below, for more).
 - `placeholder`: (optional) “placeholder text” for the input.
-- `el`: (optional) element if you want to render it into a specific exisiting element pass it on initialization.
+- `el`: (optional) element if you want to render the field into a specific exisiting element.  If passed an `<input>` or `<textarea>`, a new container will replace your input, and make your input a child node (enabling the field validation features).
 - `required` (default: `true`): whether this field is required or not.
 - `requiredMessage` (default: `'This field is required'`): message to use if required and empty.
 - `tests` (default: `[]`): test function to run on input (more below).
 - `validClass`   (default: `'input-valid'`): class to apply to input if valid.
 - `invalidClass` (default: `'input-invalid'`): class to apply to input if invalid.
-- `rootElementClass`: class to apply to root element of view. 
+- `rootElementClass`: class to apply to root element of view.
 - `parent`: a View instance to use as the `parent` for this input. If your InputView is in a FormView, this is automatically set for you.
 
 
@@ -97,7 +97,7 @@ Renders the inputView. This is called automatically if your inputView is used wi
 
 This can either be customized by using `extend`, or by passing in a `template` on instantiation.
 
-It can be a function that returns a string of HTML or DOM element—or just an plain old HTML string. 
+It can be a function that returns a string of HTML or DOM element—or just an plain old HTML string.
 
 But whatever it is, the resulting HTML should contain the following hooks:
 
@@ -192,7 +192,7 @@ var VerifiedAddressInput = AmpersandInputView.extend({
             }
         },
         // you may also want to change what
-        // deterines if this field should be 
+        // deterines if this field should be
         // considerd valid. In this case, whether
         // it has a validated address
         valid: {
@@ -225,7 +225,7 @@ var styledInputView = new InputView({
     rootElementClass : 'ui field' // currently this doesn't work
 });
 ```
-This is because `rootElementClass` needs to be a single class (at least for now).  
+This is because `rootElementClass` needs to be a single class (at least for now).
 
 Luckily, its easy to customize this for your needs.  Since this view extends `ampersand-view`, you just need to extend it and override `rootElementClass` to handle arrays:
 
@@ -260,11 +260,11 @@ var myInput = new InputView({
                 return "A tweet can be no more than 140 characters";
             }
         }
-    ] 
+    ]
 });
 ```
 
-**Note:** You can still do `required: true` and pass tests. If you do, it will check if it's not empty first, and show the `requiredMessage` error if it is. 
+**Note:** You can still do `required: true` and pass tests. If you do, it will check if it's not empty first, and show the `requiredMessage` error if it is.
 
 Remember that the inputView will only show one error per field at a time. This is to minimize annoyance. We don't want to show “this field is required” and every other error if they just left it empty. We just show the first one that fails, then when they go to correct it, it will update to reflect the next failed test (if any).
 
@@ -278,7 +278,7 @@ Passing `true` as second argument will skip validation. This is mainly for inter
 
 ### reset `inputView.reset()`
 
-Set value to back original value. If you passed a `value` when creating the view it will reset to that, otherwise to `''`. 
+Set value to back original value. If you passed a `value` when creating the view it will reset to that, otherwise to `''`.
 
 
 ### clear `inputView.clear()`
