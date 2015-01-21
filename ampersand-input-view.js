@@ -60,10 +60,15 @@ module.exports = View.extend({
         this.inputValue = value;
         this.on('change:valid change:value', this.reportToParent, this);
         if (spec.template) this.template = spec.template;
+        if (spec.el) {
+            this.el = spec.el;
+            this.render();
+        }
     },
     render: function () {
-        this.renderWithTemplate();
-        this.input = this.query('input') || this.query('textarea');
+        if (this.el) this.input = this.el;
+        this.el || this.renderWithTemplate();
+        this.input = this.input || this.query('input') || this.query('textarea');
         // switches out input for textarea if that's what we want
         this.handleTypeChange();
         this.initInputBindings();
