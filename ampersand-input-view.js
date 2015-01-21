@@ -1,7 +1,6 @@
 /*$AMPERSAND_VERSION*/
 var View = require('ampersand-view');
 
-
 module.exports = View.extend({
     template: [
         '<label>',
@@ -60,15 +59,23 @@ module.exports = View.extend({
         this.inputValue = value;
         this.on('change:valid change:value', this.reportToParent, this);
         if (spec.template) this.template = spec.template;
-        if (spec.el) {
-            this.el = spec.el;
+        if (spec.el && (spec.el.tagName === "INPUT" || spec.el.tagName === "TEXTAREA")) {
+            this.userInput = spec.el;
+            delete spec.el; // prevent view.set from overriding mutated el
             this.render();
         }
     },
     render: function () {
-        if (this.el) this.input = this.el;
-        this.el || this.renderWithTemplate();
-        this.input = this.input || this.query('input') || this.query('textarea');
+        this.renderWithTemplate();
+        this.input = this.query('input') || this.query('textarea');
+        if (this.userInput) {
+            // swap user input on first render
+            this.el.replaceChild(this.userInput, this.input);
+            // assume that if userInput provided, userLabel provided
+            this.el.removeChild(this.queryByHook('label'));
+            this.input = this.userInput;
+            delete this.userInput;
+        }
         // switches out input for textarea if that's what we want
         this.handleTypeChange();
         this.initInputBindings();
