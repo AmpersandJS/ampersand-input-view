@@ -66,8 +66,9 @@ module.exports = View.extend({
         }
     },
     render: function () {
-        if (!this.el) this.renderWithTemplate();
-        this.input = this.el || this.query('input') || this.query('textarea');
+        if (this.el) this.input = this.el;
+        this.el || this.renderWithTemplate();
+        this.input = this.input || this.query('input') || this.query('textarea');
         // switches out input for textarea if that's what we want
         this.handleTypeChange();
         this.initInputBindings();
