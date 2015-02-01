@@ -205,8 +205,8 @@ module.exports = View.extend({
     reset: function () {
         this.setValue(this.startingValue);
     },
-    clear: function (skipValidation) {
-        this.setValue('', skipValidation);
+    clear: function () {
+        this.setValue('', true);
     },
     reportToParent: function () {
         if (this.parent) this.parent.update(this);
