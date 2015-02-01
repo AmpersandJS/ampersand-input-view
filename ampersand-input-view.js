@@ -133,6 +133,8 @@ module.exports = View.extend({
         this.inputValue = this.input.value;
         if (!skipValidation && !this.getErrorMessage()) {
             this.shouldValidate = true;
+        } else if(skipValidation) {
+            this.shouldValidate = false;
         }
     },
     getErrorMessage: function () {
@@ -204,7 +206,7 @@ module.exports = View.extend({
         this.setValue(this.startingValue);
     },
     clear: function () {
-        this.setValue('');
+        this.setValue('', true);
     },
     reportToParent: function () {
         if (this.parent) this.parent.update(this);
