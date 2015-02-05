@@ -232,10 +232,10 @@ test('allow setting root element class', function (t) {
     t.end();
 });
 
-test('allow overriding root validity class function', function (t) {
+test('allow overriding root class function', function (t) {
     var Input = InputView.extend({
         derived: {
-            rootValidityClass: {
+            rootClass: {
                 deps: ['rootElementClass'],
                 fn: function () {
                     return 'custom';
@@ -250,26 +250,34 @@ test('allow overriding root validity class function', function (t) {
     t.end();
 });
 
-test('setRootValidity boolean', function (t) {
+test('setRootClass/setInputClass boolean', function (t) {
     var input = new InputView({
         name: 'title',
         required: true,
-        setRootValidity: true
+        setRootClass: true,
+        setInputClass: false
     });
     input.render();
+    var inputElement = input.el.querySelector('input');
+    t.notOk(hasClass(inputElement, 'input-valid'));
+    t.notOk(hasClass(inputElement, 'input-invalid'));
     t.notOk(hasClass(input.el, 'input-valid'));
     t.notOk(hasClass(input.el, 'input-invalid'));
     input.beforeSubmit();
+    t.notOk(hasClass(inputElement, 'input-valid'));
+    t.notOk(hasClass(inputElement, 'input-invalid'));
     t.notOk(hasClass(input.el, 'input-valid'));
     t.ok(hasClass(input.el, 'input-invalid'));
     input.setValue('something');
+    t.notOk(hasClass(inputElement, 'input-valid'));
+    t.notOk(hasClass(inputElement, 'input-invalid'));
     t.ok(hasClass(input.el, 'input-valid'));
     t.notOk(hasClass(input.el, 'input-invalid'));
     t.end();
 });
 
 
-test('validityClass is present on submit even if unchanged', function (t) {
+test('inputClass is present on submit even if unchanged', function (t) {
     [
         new InputView({
             name: 'title',

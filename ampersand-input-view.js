@@ -39,11 +39,11 @@ module.exports = View.extend({
             selector: 'input, textarea',
             name: 'placeholder'
         },
-        'validityClass': {
+        'inputClass': {
             type: 'class',
             selector: 'input, textarea'
         },
-        'rootValidityClass': {
+        'rootClass': {
             type: 'class',
             selector: ''
         }
@@ -86,7 +86,8 @@ module.exports = View.extend({
         requiredMessage: ['string', true, 'This field is required.'],
         validClass: ['string', true, 'input-valid'],
         invalidClass: ['string', true, 'input-invalid'],
-        setRootValidity: ['boolean', true, false],
+        setRootClass: ['boolean', true, false],
+        setInputClass: ['boolean', true, true],
         rootElementClass: ['string', true, '']
     },
     derived: {
@@ -114,20 +115,20 @@ module.exports = View.extend({
                 return this.inputValue !== this.startingValue;
             }
         },
-        validityClass: {
-            deps: ['valid', 'validClass', 'invalidClass', 'shouldValidate'],
+        inputClass: {
+            deps: ['setInputClass', 'valid', 'validClass', 'invalidClass', 'shouldValidate'],
             fn: function () {
-                if (!this.shouldValidate) {
+                if (!this.setInputClass || !this.shouldValidate || this.setRootValidity) {
                     return '';
                 } else {
                     return this.valid ? this.validClass : this.invalidClass;
                 }
             }
         },
-        rootValidityClass: {
-            deps: ['rootElementClass', 'valid', 'validClass', 'invalidClass', 'shouldValidate'],
+        rootClass: {
+            deps: ['setRootClass', 'rootElementClass', 'valid', 'validClass', 'invalidClass', 'shouldValidate'],
             fn: function () {
-                if (!this.setRootValidity) {
+                if (!this.setRootClass) {
                     return this.rootElementClass;
                 }
                 if (!this.shouldValidate) {
