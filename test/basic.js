@@ -220,7 +220,7 @@ test ('validityClass', function (t) {
         bindings: {
             'validityClass': {
                 type: 'class',
-                selector: ''
+                selector: 'label'
             }
         }
     });
@@ -236,6 +236,7 @@ test ('validityClass', function (t) {
     t.end();
 
 });
+
 test('inputClass is present on submit even if unchanged', function (t) {
     [
         new InputView({
