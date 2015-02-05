@@ -88,6 +88,9 @@ test('reset value', function (t) {
     input2.reset();
     t.equal(input2.input.value, 'start', 'value should have been reset to original');
 
+    input.beforeSubmit(); //Turn on shouldValidate
+    input.reset();
+    t.equal(input.shouldValidate, false);
     t.end();
 });
 
@@ -116,6 +119,11 @@ test('clear', function (t) {
     input2.clear();
     t.equal(input2.input.value, '');
     t.equal(input2.value, '');
+
+    input.beforeSubmit(); //Turn on shouldValidate
+    input.clear();
+    t.equal(input.shouldValidate, false);
+
 
     t.end();
 });

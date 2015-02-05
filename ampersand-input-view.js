@@ -205,7 +205,7 @@ module.exports = View.extend({
         View.prototype.remove.apply(this, arguments);
     },
     reset: function () {
-        this.setValue(this.startingValue);
+        this.setValue(this.startingValue, true); //Skip validation just like on initial render
     },
     clear: function () {
         this.setValue('', true);
