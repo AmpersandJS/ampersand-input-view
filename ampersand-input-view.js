@@ -43,7 +43,7 @@ module.exports = View.extend({
             type: 'class',
             selector: 'input, textarea'
         },
-        'rootElementClass': {
+        'rootValidityClass': {
             type: 'class',
             selector: ''
         }
@@ -121,6 +121,12 @@ module.exports = View.extend({
                 } else {
                     return this.valid ? this.validClass : this.invalidClass;
                 }
+            }
+        },
+        rootValidityClass: {
+            deps: ['rootElementClass'],
+            fn: function () {
+                return this.rootElementClass;
             }
         }
     },

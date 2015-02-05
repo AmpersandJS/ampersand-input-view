@@ -12,6 +12,7 @@
     "url": "https://github.com/ampersandjs/ampersand-input-view/issues"
   },
   "dependencies": {
+    "amp-defaults": "^1.0.1",
     "ampersand-version": "^1.0.1",
     "ampersand-view": "^7.0.0"
   },

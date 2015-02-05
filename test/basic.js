@@ -232,6 +232,24 @@ test('allow setting root element class', function (t) {
     t.end();
 });
 
+test('allow setting root validity class', function (t) {
+    var Input = InputView.extend({
+        derived: {
+            rootValidityClass: {
+                deps: ['rootElementClass'],
+                fn: function () {
+                    return 'custom';
+                }
+            }
+        }
+    });
+    var input = new Input();
+    input.render();
+    input.rootElementClass = 'root';
+    t.equal(input.el.className, 'custom');
+    t.end();
+});
+
 
 test('validityClass is present on submit even if unchanged', function (t) {
     [
