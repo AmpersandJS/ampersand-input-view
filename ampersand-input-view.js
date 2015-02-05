@@ -194,9 +194,11 @@ module.exports = View.extend({
     initInputBindings: function () {
         this.input.addEventListener('blur', this.handleBlur, false);
         this.input.addEventListener('input', this.handleInputChanged, false);
+        this.input.addEventListener('change', this.handleInputChanged, false);
     },
     remove: function () {
         this.input.removeEventListener('input', this.handleInputChanged, false);
+        this.input.removeEventListener('change', this.handleInputChanged, false);
         this.input.removeEventListener('blur', this.handleBlur, false);
         View.prototype.remove.apply(this, arguments);
     },
