@@ -215,68 +215,27 @@ test('Tests with required true and false', function (t) {
     t.end();
 });
 
-test('allow setting root element class', function (t) {
-    var input = new InputView();
-    input.render();
-    t.equal(input.el.className, '');
-
-    input = new InputView({
-        rootElementClass: 'something'
-    });
-    input.render();
-
-    t.equal(input.el.className, 'something');
-    input.rootElementClass = 'somethingelse';
-    t.equal(input.el.className, 'somethingelse');
-
-    t.end();
-});
-
-test('allow overriding root class function', function (t) {
+test ('validityClass', function (t) {
     var Input = InputView.extend({
-        derived: {
-            rootClass: {
-                deps: ['rootElementClass'],
-                fn: function () {
-                    return 'custom';
-                }
+        bindings: {
+            'validityClass': {
+                type: 'class',
+                selector: ''
             }
         }
     });
-    var input = new Input();
-    input.render();
-    input.rootElementClass = 'root';
-    t.equal(input.el.className, 'custom');
-    t.end();
-});
-
-test('setRootClass/setInputClass boolean', function (t) {
-    var input = new InputView({
+    var input = new Input({
         name: 'title',
-        required: true,
-        setRootClass: true,
-        setInputClass: false
+        required: true
     });
+
     input.render();
-    var inputElement = input.el.querySelector('input');
-    t.notOk(hasClass(inputElement, 'input-valid'));
-    t.notOk(hasClass(inputElement, 'input-invalid'));
-    t.notOk(hasClass(input.el, 'input-valid'));
-    t.notOk(hasClass(input.el, 'input-invalid'));
     input.beforeSubmit();
-    t.notOk(hasClass(inputElement, 'input-valid'));
-    t.notOk(hasClass(inputElement, 'input-invalid'));
-    t.notOk(hasClass(input.el, 'input-valid'));
-    t.ok(hasClass(input.el, 'input-invalid'));
-    input.setValue('something');
-    t.notOk(hasClass(inputElement, 'input-valid'));
-    t.notOk(hasClass(inputElement, 'input-invalid'));
-    t.ok(hasClass(input.el, 'input-valid'));
-    t.notOk(hasClass(input.el, 'input-invalid'));
+    t.ok(hasClass(input.el, 'input-invalid'), 'Has invalid class');
+    t.notOk(hasClass(input.el, 'input-valid'), 'Does not have valid class');
     t.end();
+
 });
-
-
 test('inputClass is present on submit even if unchanged', function (t) {
     [
         new InputView({

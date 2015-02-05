@@ -39,13 +39,9 @@ module.exports = View.extend({
             selector: 'input, textarea',
             name: 'placeholder'
         },
-        'inputClass': {
+        'validityClass': {
             type: 'class',
             selector: 'input, textarea'
-        },
-        'rootClass': {
-            type: 'class',
-            selector: ''
         }
     },
     initialize: function (spec) {
@@ -86,9 +82,7 @@ module.exports = View.extend({
         requiredMessage: ['string', true, 'This field is required.'],
         validClass: ['string', true, 'input-valid'],
         invalidClass: ['string', true, 'input-invalid'],
-        setRootClass: ['boolean', true, false],
-        setInputClass: ['boolean', true, true],
-        rootElementClass: ['string', true, '']
+        validityClassSelector: ['string', true, 'input, textarea']
     },
     derived: {
         value: {
@@ -115,22 +109,9 @@ module.exports = View.extend({
                 return this.inputValue !== this.startingValue;
             }
         },
-        inputClass: {
-            deps: ['setInputClass', 'valid', 'validClass', 'invalidClass', 'shouldValidate'],
+        validityClass: {
+            deps: ['valid', 'validClass', 'invalidClass', 'shouldValidate'],
             fn: function () {
-                if (!this.setInputClass || !this.shouldValidate || this.setRootValidity) {
-                    return '';
-                } else {
-                    return this.valid ? this.validClass : this.invalidClass;
-                }
-            }
-        },
-        rootClass: {
-            deps: ['setRootClass', 'rootElementClass', 'valid', 'validClass', 'invalidClass', 'shouldValidate'],
-            fn: function () {
-                if (!this.setRootClass) {
-                    return this.rootElementClass;
-                }
                 if (!this.shouldValidate) {
                     return '';
                 } else {
