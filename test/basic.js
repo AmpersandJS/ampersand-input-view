@@ -186,7 +186,7 @@ test('Tests with required true and false', function (t) {
         // Blur to trigger invalid message/class
         inputElement.value = 'O';
         input.handleInputChanged();
-        input.handleBlur();
+        input.handleChange();
 
         t.notOk(input.valid, 'Input should be invalid');
         t.notOk(isHidden(messageContainer), 'Message should be visible');
@@ -196,7 +196,7 @@ test('Tests with required true and false', function (t) {
         //"Trigger change events again"
         inputElement.value = 'Once upon a time!';
         input.handleInputChanged();
-        input.handleBlur();
+        input.handleChange();
 
         t.ok(input.valid, 'Input should be valid');
         t.ok(isHidden(messageContainer), 'Message should not be visible');
@@ -274,7 +274,7 @@ test('Required views display message and class after edited', function (t) {
 
         inputElement.value = 'Required string';
         input.handleInputChanged();
-        input.handleBlur();
+        input.handleChange();
 
         t.ok(input.valid, 'Input should be valid');
         t.ok(isHidden(messageContainer), 'Message should not be visible');
@@ -285,7 +285,7 @@ test('Required views display message and class after edited', function (t) {
         // message and class even though it is technically "unchanged"
         inputElement.value = '';
         input.handleInputChanged();
-        input.handleBlur();
+        input.handleChange();
 
         t.notOk(input.valid, 'Input should be invalid');
         t.notOk(isHidden(messageContainer), 'Message should be visible');

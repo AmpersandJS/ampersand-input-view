@@ -53,7 +53,7 @@ module.exports = View.extend({
         spec || (spec = {});
         this.tests = this.tests || spec.tests || [];
         this.on('change:type', this.handleTypeChange, this);
-        this.handleBlur = this.handleBlur.bind(this);
+        this.handleChange = this.handleChange.bind(this);
         this.handleInputChanged = this.handleInputChanged.bind(this);
         var value = !spec.value && spec.value !== 0 ? '' : spec.value;
         this.startingValue = value;
@@ -158,16 +158,18 @@ module.exports = View.extend({
             this.input.type = this.type;
         }
     },
+    clean: function (val) {
+        return (this.type === 'number') ? Number(val) : val.trim();
+    },
+    //`input` event handler
     handleInputChanged: function () {
         if (document.activeElement === this.input) {
             this.directlyEdited = true;
         }
         this.inputValue = this.clean(this.input.value);
     },
-    clean: function (val) {
-        return (this.type === 'number') ? Number(val) : val.trim();
-    },
-    handleBlur: function () {
+    //`change` event handler
+    handleChange: function () {
         if (this.inputValue && this.changed) {
             this.shouldValidate = true;
         }
@@ -192,14 +194,12 @@ module.exports = View.extend({
         return message;
     },
     initInputBindings: function () {
-        this.input.addEventListener('blur', this.handleBlur, false);
         this.input.addEventListener('input', this.handleInputChanged, false);
-        this.input.addEventListener('change', this.handleInputChanged, false);
+        this.input.addEventListener('change', this.handleChange,false);
     },
     remove: function () {
         this.input.removeEventListener('input', this.handleInputChanged, false);
-        this.input.removeEventListener('change', this.handleInputChanged, false);
-        this.input.removeEventListener('blur', this.handleBlur, false);
+        this.input.removeEventListener('change', this.handleChange, false);
         View.prototype.remove.apply(this, arguments);
     },
     reset: function () {
