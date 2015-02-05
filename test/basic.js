@@ -232,7 +232,7 @@ test('allow setting root element class', function (t) {
     t.end();
 });
 
-test('allow setting root validity class', function (t) {
+test('allow overriding root validity class function', function (t) {
     var Input = InputView.extend({
         derived: {
             rootValidityClass: {
@@ -247,6 +247,24 @@ test('allow setting root validity class', function (t) {
     input.render();
     input.rootElementClass = 'root';
     t.equal(input.el.className, 'custom');
+    t.end();
+});
+
+test('setRootValidity boolean', function (t) {
+    var input = new InputView({
+        name: 'title',
+        required: true,
+        setRootValidity: true
+    });
+    input.render();
+    t.notOk(hasClass(input.el, 'input-valid'));
+    t.notOk(hasClass(input.el, 'input-invalid'));
+    input.beforeSubmit();
+    t.notOk(hasClass(input.el, 'input-valid'));
+    t.ok(hasClass(input.el, 'input-invalid'));
+    input.setValue('something');
+    t.ok(hasClass(input.el, 'input-valid'));
+    t.notOk(hasClass(input.el, 'input-invalid'));
     t.end();
 });
 

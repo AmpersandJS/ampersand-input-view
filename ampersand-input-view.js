@@ -86,6 +86,7 @@ module.exports = View.extend({
         requiredMessage: ['string', true, 'This field is required.'],
         validClass: ['string', true, 'input-valid'],
         invalidClass: ['string', true, 'input-invalid'],
+        setRootValidity: ['boolean', true, false],
         rootElementClass: ['string', true, '']
     },
     derived: {
@@ -124,9 +125,16 @@ module.exports = View.extend({
             }
         },
         rootValidityClass: {
-            deps: ['rootElementClass'],
+            deps: ['rootElementClass', 'valid', 'validClass', 'invalidClass', 'shouldValidate'],
             fn: function () {
-                return this.rootElementClass;
+                if (!this.setRootValidity) {
+                    return this.rootElementClass;
+                }
+                if (!this.shouldValidate) {
+                    return '';
+                } else {
+                    return this.valid ? this.validClass : this.invalidClass;
+                }
             }
         }
     },
