@@ -348,3 +348,14 @@ test('value reports changed in cases where it shouldnt', function (t) {
 
     t.end();
 });
+
+test('initialize with a custom beforeSubmit', function (t) {
+    var customBeforeSubmit = function () { return; };
+    var input = new InputView({
+        name: 'title',
+        beforeSubmit: customBeforeSubmit
+    });
+
+    t.equal(input.beforeSubmit, customBeforeSubmit);
+    t.end();
+});

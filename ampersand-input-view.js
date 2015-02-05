@@ -1,7 +1,6 @@
 /*$AMPERSAND_VERSION*/
 var View = require('ampersand-view');
 
-
 module.exports = View.extend({
     template: [
         '<label>',
@@ -60,6 +59,7 @@ module.exports = View.extend({
         this.inputValue = value;
         this.on('change:valid change:value', this.reportToParent, this);
         if (spec.template) this.template = spec.template;
+        if (spec.beforeSubmit) this.beforeSubmit = spec.beforeSubmit;
     },
     render: function () {
         this.renderWithTemplate();
