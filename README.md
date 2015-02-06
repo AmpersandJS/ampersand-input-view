@@ -46,7 +46,7 @@ module.exports = FormView.extend({
 
 ### extend `AmpersandInputView.extend({ })`
 
-Since this view is based on [ampersand-state](http://ampersandjs.com/docs#ampersand-state), it can be extended in the same way. 
+Since this view is based on [ampersand-state](http://ampersandjs.com/docs#ampersand-state), it can be extended in the same way.
 
 To create an **`InputView`** class of your own, you extend **`AmpersandInputView`** and provide instance properties and options for your class. Here, you will typically pass any properties (`props`, `session`, and `derived`) of your state class, and any methods to be attached to instances of your class.
 
@@ -62,7 +62,7 @@ var MyCustomInput = AmpersandInputView.extend({
         AmpersandInputView.prototype.initialize.call(apply, arguments);
 
         // do whatever else you need to do on init here
-    } 
+    }
 });
 ```
 
@@ -74,6 +74,7 @@ When creating an instance of an `InputView`, you can pass in the initial values 
 
 #### opts
 
+- `tests` (default: `[]`): test function to run on input (more below).
 - `name`: the input's `name` attribute's value. Used when reporting to parent form.
 - `type` (default: `'text'`): input type to use, can be any valid HTML5 input type.
 - `value`: initial value for the `<input>`.
@@ -82,11 +83,10 @@ When creating an instance of an `InputView`, you can pass in the initial values 
 - `el`: (optional) element if you want to render it into a specific exisiting element pass it on initialization.
 - `required` (default: `true`): whether this field is required or not.
 - `requiredMessage` (default: `'This field is required'`): message to use if required and empty.
-- `tests` (default: `[]`): test function to run on input (more below).
-- `validClass`   (default: `'input-valid'`): class to apply to input if valid.
-- `invalidClass` (default: `'input-invalid'`): class to apply to input if invalid.
-- `rootElementClass`: class to apply to root element of view. 
+- `validClass` (default: `'input-valid'`): class to apply to input if valid (see below for customizing where this is applied).
+- `invalidClass` (default: `'input-invalid'`): class to apply to input if invalid (see below for customizing where this is applied).
 - `parent`: a View instance to use as the `parent` for this input. If your InputView is in a FormView, this is automatically set for you.
+- `beforeSubmit`: function called by [ampersand-form-view](https://github.com/AmpersandJS/ampersand-form-view) during submit. By default this runs the tests and displays error messages.
 
 
 ### render `inputView.render()`
@@ -97,7 +97,7 @@ Renders the inputView. This is called automatically if your inputView is used wi
 
 This can either be customized by using `extend`, or by passing in a `template` on instantiation.
 
-It can be a function that returns a string of HTML or DOM element—or just an plain old HTML string. 
+It can be a function that returns a string of HTML or DOM element—or just an plain old HTML string.
 
 But whatever it is, the resulting HTML should contain the following hooks:
 
@@ -192,7 +192,7 @@ var VerifiedAddressInput = AmpersandInputView.extend({
             }
         },
         // you may also want to change what
-        // deterines if this field should be 
+        // deterines if this field should be
         // considerd valid. In this case, whether
         // it has a validated address
         valid: {
@@ -216,29 +216,21 @@ var VerifiedAddressInput = AmpersandInputView.extend({
 });
 ```
 
-#### Multiple classes for `rootElementClass`
-Another example might be that your designers want you to use multiple class names for the root element of your view. For example, `ui field` (if you were using something like [Semantic UI](http://semantic-ui.com)).  You may want to try something like this:
+#### Setting valid/invalid classes
+By default, `validClass` and `invalidClass` are set on either the `input` or `textarea` in the rendered template.  This is done via a `validityClassSelector` property that is used to find the elements to apply either `validClass` or `invalidClass`. You can set `validityClassSelector` to have this class applied anywhere you need in your rendered template
 
-```javascript
-var styledInputView = new InputView({
-    // other properties
-    rootElementClass : 'ui field' // currently this doesn't work
+For instance, this would set the class on the root label instead:
+
+```javascript:
+var CustomInput = InputView.extend({
+    validityClassSelector: 'label'
 });
 ```
-This is because `rootElementClass` needs to be a single class (at least for now).  
 
-Luckily, its easy to customize this for your needs.  Since this view extends `ampersand-view`, you just need to extend it and override `rootElementClass` to handle arrays:
-
-```javascript
-var CustomInputView = InputView.extend({
-    props : {
-        rootElementClass : ['array']
-    }
-});
-
-var styledInputView = new CustomInputView({
-    // other properties
-    rootElementClass : ['ui', 'field']
+And this would set it on the root label and the message element
+```javascript:
+var CustomInput = InputView.extend({
+    validityClassSelector: 'label, [data-hook=message-text]'
 });
 ```
 
@@ -260,11 +252,11 @@ var myInput = new InputView({
                 return "A tweet can be no more than 140 characters";
             }
         }
-    ] 
+    ]
 });
 ```
 
-**Note:** You can still do `required: true` and pass tests. If you do, it will check if it's not empty first, and show the `requiredMessage` error if it is. 
+**Note:** You can still do `required: true` and pass tests. If you do, it will check if it's not empty first, and show the `requiredMessage` error if it is.
 
 Remember that the inputView will only show one error per field at a time. This is to minimize annoyance. We don't want to show “this field is required” and every other error if they just left it empty. We just show the first one that fails, then when they go to correct it, it will update to reflect the next failed test (if any).
 
@@ -275,10 +267,27 @@ Setter for value that will fire all appropriate handlers/tests. Can also be done
 
 Passing `true` as second argument will skip validation. This is mainly for internal use.
 
+#### Setting input.value on non-user input
+This module assumes that the value of the input element will be set by the user.  This is the only event that can be reliably listened for on an input element.  If you have a third-party library (i.e. Bootstrap or jQuery) that is going to be affecting the input value directly you will need to let your model know about the change via `setValue`.
+
+```javascript
+var myInput = new InputView({
+    name: 'date'
+});
+myInput.render();
+document.body.appendChild(myInput.el);
+
+$('[name=address]').datepicker({
+    onSelect: function (newDate) {
+        myInput.setValue(newDate);
+    }
+});
+
+```
 
 ### reset `inputView.reset()`
 
-Set value to back original value. If you passed a `value` when creating the view it will reset to that, otherwise to `''`. 
+Set value to back original value. If you passed a `value` when creating the view it will reset to that, otherwise to `''`.
 
 
 ### clear `inputView.clear()`
@@ -288,6 +297,11 @@ Sets value to `''` no matter what previous values were.
 
 ## changelog
 
+- 4.0.0
+ - Remove `rootElementClass` in favor of a better validityClass selector
+ - Listen to `change` instead of `blur` event
+ - Reset error message state on `clear()` and `reset()`
+ - Allow `beforeSubmit` to be defined on initialization
 - 3.1.0 - Add [ampersand-version](https://github.com/ampersandjs/ampersand-version) for version tracking.
 - 3.0.0 - Add API reference docs. Add `.clear()`, `.reset()` methods. Make `value` derived property. Fix #21 validity class issue.
 - 2.1.0 - Can now set `rootElementClass`. Add reset function #15. Allow setting `0` as value #17.

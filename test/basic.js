@@ -88,6 +88,9 @@ test('reset value', function (t) {
     input2.reset();
     t.equal(input2.input.value, 'start', 'value should have been reset to original');
 
+    input.beforeSubmit(); //Turn on shouldValidate
+    input.reset();
+    t.equal(input.shouldValidate, false);
     t.end();
 });
 
@@ -116,6 +119,11 @@ test('clear', function (t) {
     input2.clear();
     t.equal(input2.input.value, '');
     t.equal(input2.value, '');
+
+    input.beforeSubmit(); //Turn on shouldValidate
+    input.clear();
+    t.equal(input.shouldValidate, false);
+
 
     t.end();
 });
@@ -186,7 +194,7 @@ test('Tests with required true and false', function (t) {
         // Blur to trigger invalid message/class
         inputElement.value = 'O';
         input.handleInputChanged();
-        input.handleBlur();
+        input.handleChange();
 
         t.notOk(input.valid, 'Input should be invalid');
         t.notOk(isHidden(messageContainer), 'Message should be visible');
@@ -196,7 +204,7 @@ test('Tests with required true and false', function (t) {
         //"Trigger change events again"
         inputElement.value = 'Once upon a time!';
         input.handleInputChanged();
-        input.handleBlur();
+        input.handleChange();
 
         t.ok(input.valid, 'Input should be valid');
         t.ok(isHidden(messageContainer), 'Message should not be visible');
@@ -207,25 +215,37 @@ test('Tests with required true and false', function (t) {
     t.end();
 });
 
-test('allow setting root element class', function (t) {
-    var input = new InputView();
+test ('validityClassSelector', function (t) {
+    var input = new InputView({
+        name: 'title',
+        validityClassSelector: 'label',
+        required: true
+    });
+
     input.render();
-    t.equal(input.el.className, '');
+    var inputElement = input.el.querySelector('input');
+    input.beforeSubmit();
+    t.ok(hasClass(input.el, 'input-invalid'), 'Label has invalid class');
+    t.notOk(hasClass(input.el, 'input-valid'), 'Label does not have valid class');
+    t.notOk(hasClass(inputElement, 'input-invalid'), 'Input does not have invalid class');
+    t.notOk(hasClass(inputElement, 'input-valid'), 'Input does not have valid class');
 
     input = new InputView({
-        rootElementClass: 'something'
+        name: 'title',
+        validityClassSelector: 'label, input',
+        required: true
     });
     input.render();
-
-    t.equal(input.el.className, 'something');
-    input.rootElementClass = 'somethingelse';
-    t.equal(input.el.className, 'somethingelse');
-
+    inputElement = input.el.querySelector('input');
+    input.beforeSubmit();
+    t.ok(hasClass(input.el, 'input-invalid'), 'Label has invalid class');
+    t.notOk(hasClass(input.el, 'input-valid'), 'Label does not have valid class');
+    t.ok(hasClass(inputElement, 'input-invalid'), 'Input has invalid class');
+    t.notOk(hasClass(inputElement, 'input-valid'), 'Input does not have valid class');
     t.end();
 });
 
-
-test('validityClass is present on submit even if unchanged', function (t) {
+test('inputClass is present on submit even if unchanged', function (t) {
     [
         new InputView({
             name: 'title',
@@ -274,7 +294,7 @@ test('Required views display message and class after edited', function (t) {
 
         inputElement.value = 'Required string';
         input.handleInputChanged();
-        input.handleBlur();
+        input.handleChange();
 
         t.ok(input.valid, 'Input should be valid');
         t.ok(isHidden(messageContainer), 'Message should not be visible');
@@ -285,7 +305,7 @@ test('Required views display message and class after edited', function (t) {
         // message and class even though it is technically "unchanged"
         inputElement.value = '';
         input.handleInputChanged();
-        input.handleBlur();
+        input.handleChange();
 
         t.notOk(input.valid, 'Input should be invalid');
         t.notOk(isHidden(messageContainer), 'Message should be visible');
@@ -338,5 +358,16 @@ test('value reports changed in cases where it shouldnt', function (t) {
         t.notOk(input.changed, 'Input is not changed when null');
     });
 
+    t.end();
+});
+
+test('initialize with a custom beforeSubmit', function (t) {
+    var customBeforeSubmit = function () { return; };
+    var input = new InputView({
+        name: 'title',
+        beforeSubmit: customBeforeSubmit
+    });
+
+    t.equal(input.beforeSubmit, customBeforeSubmit);
     t.end();
 });

@@ -1,6 +1,16 @@
 /*$AMPERSAND_VERSION*/
 var View = require('ampersand-view');
+var dom = require('ampersand-dom');
+var matchesSelector = require('matches-selector');
 
+var slice = Array.prototype.slice;
+
+function getMatches(el, selector) {
+    if (selector === '') return [el];
+    var matches = [];
+    if (matchesSelector(el, selector)) matches.push(el);
+    return matches.concat(slice.call(el.querySelectorAll(selector)));
+}
 
 module.exports = View.extend({
     template: [
@@ -39,27 +49,21 @@ module.exports = View.extend({
             type: 'attribute',
             selector: 'input, textarea',
             name: 'placeholder'
-        },
-        'validityClass': {
-            type: 'class',
-            selector: 'input, textarea'
-        },
-        'rootElementClass': {
-            type: 'class',
-            selector: ''
         }
     },
     initialize: function (spec) {
         spec || (spec = {});
         this.tests = this.tests || spec.tests || [];
         this.on('change:type', this.handleTypeChange, this);
-        this.handleBlur = this.handleBlur.bind(this);
+        this.handleChange = this.handleChange.bind(this);
         this.handleInputChanged = this.handleInputChanged.bind(this);
         var value = !spec.value && spec.value !== 0 ? '' : spec.value;
         this.startingValue = value;
         this.inputValue = value;
         this.on('change:valid change:value', this.reportToParent, this);
+        this.on('change:validityClass', this.validityClassChanged, this);
         if (spec.template) this.template = spec.template;
+        if (spec.beforeSubmit) this.beforeSubmit = spec.beforeSubmit;
     },
     render: function () {
         this.renderWithTemplate();
@@ -86,7 +90,7 @@ module.exports = View.extend({
         requiredMessage: ['string', true, 'This field is required.'],
         validClass: ['string', true, 'input-valid'],
         invalidClass: ['string', true, 'input-invalid'],
-        rootElementClass: ['string', true, '']
+        validityClassSelector: ['string', true, 'input, textarea']
     },
     derived: {
         value: {
@@ -133,6 +137,8 @@ module.exports = View.extend({
         this.inputValue = this.input.value;
         if (!skipValidation && !this.getErrorMessage()) {
             this.shouldValidate = true;
+        } else if (skipValidation) {
+            this.shouldValidate = false;
         }
     },
     getErrorMessage: function () {
@@ -158,16 +164,18 @@ module.exports = View.extend({
             this.input.type = this.type;
         }
     },
+    clean: function (val) {
+        return (this.type === 'number') ? Number(val) : val.trim();
+    },
+    //`input` event handler
     handleInputChanged: function () {
         if (document.activeElement === this.input) {
             this.directlyEdited = true;
         }
         this.inputValue = this.clean(this.input.value);
     },
-    clean: function (val) {
-        return (this.type === 'number') ? Number(val) : val.trim();
-    },
-    handleBlur: function () {
+    //`change` event handler
+    handleChange: function () {
         if (this.inputValue && this.changed) {
             this.shouldValidate = true;
         }
@@ -192,19 +200,25 @@ module.exports = View.extend({
         return message;
     },
     initInputBindings: function () {
-        this.input.addEventListener('blur', this.handleBlur, false);
         this.input.addEventListener('input', this.handleInputChanged, false);
+        this.input.addEventListener('change', this.handleChange,false);
     },
     remove: function () {
         this.input.removeEventListener('input', this.handleInputChanged, false);
-        this.input.removeEventListener('blur', this.handleBlur, false);
+        this.input.removeEventListener('change', this.handleChange, false);
         View.prototype.remove.apply(this, arguments);
     },
     reset: function () {
-        this.setValue(this.startingValue);
+        this.setValue(this.startingValue, true); //Skip validation just like on initial render
     },
     clear: function () {
-        this.setValue('');
+        this.setValue('', true);
+    },
+    validityClassChanged: function (view, newClass) {
+        var oldClass = view.previousAttributes().validityClass;
+        getMatches(this.el, this.validityClassSelector).forEach(function (match) {
+            dom.switchClass(match, oldClass, newClass);
+        });
     },
     reportToParent: function () {
         if (this.parent) this.parent.update(this);
