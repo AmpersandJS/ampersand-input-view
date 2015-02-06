@@ -75,7 +75,6 @@ When creating an instance of an `InputView`, you can pass in the initial values 
 #### opts
 
 - `tests` (default: `[]`): test function to run on input (more below).
-
 - `name`: the input's `name` attribute's value. Used when reporting to parent form.
 - `type` (default: `'text'`): input type to use, can be any valid HTML5 input type.
 - `value`: initial value for the `<input>`.
@@ -84,7 +83,7 @@ When creating an instance of an `InputView`, you can pass in the initial values 
 - `el`: (optional) element if you want to render it into a specific exisiting element pass it on initialization.
 - `required` (default: `true`): whether this field is required or not.
 - `requiredMessage` (default: `'This field is required'`): message to use if required and empty.
-- `validClass`   (default: `'input-valid'`): class to apply to input if valid (see below for customizing where this is applied).
+- `validClass` (default: `'input-valid'`): class to apply to input if valid (see below for customizing where this is applied).
 - `invalidClass` (default: `'input-invalid'`): class to apply to input if invalid (see below for customizing where this is applied).
 - `parent`: a View instance to use as the `parent` for this input. If your InputView is in a FormView, this is automatically set for you.
 - `beforeSubmit`: function called by [ampersand-form-view](https://github.com/AmpersandJS/ampersand-form-view) during submit. By default this runs the tests and displays error messages.
@@ -220,7 +219,7 @@ var VerifiedAddressInput = AmpersandInputView.extend({
 #### Setting valid/invalid classes
 By default, `validClass` and `invalidClass` are set on either the `input` or `textarea` in the rendered template.  This is done via a `validityClassSelector` property that is used to find the elements to apply either `validClass` or `invalidClass`. You can set `validityClassSelector` to have this class applied anywhere you need in your rendered template
 
-For instance, this would set the class on the root label instad:
+For instance, this would set the class on the root label instead:
 
 ```javascript:
 var CustomInput = InputView.extend({
@@ -280,7 +279,7 @@ document.body.appendChild(myInput.el);
 
 $('[name=address]').datepicker({
     onSelect: function (newDate) {
-        myInput.setValue(newDate)
+        myInput.setValue(newDate);
     }
 });
 
