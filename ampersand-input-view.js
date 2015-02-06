@@ -96,8 +96,14 @@ module.exports = View.extend({
         value: {
             deps: ['inputValue'],
             fn: function () {
+                if (this.input && this.input.value !== this.inputValue) {
+                    // handle case where input.value set directly,
+                    // which does not fire `input` event
+                    this.inputValue = this.input.value;
+                }
                 return this.inputValue;
-            }
+            },
+            cache: false
         },
         valid: {
             deps: ['inputValue'],
