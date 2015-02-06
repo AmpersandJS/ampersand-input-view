@@ -281,7 +281,9 @@ document.body.appendChild(myInput.el);
 $('[name=address]').datepicker({
     onSelect: function (newDate) {
         myInput.setValue(newDate)
-    });
+    }
+});
+
 ```
 
 ### reset `inputView.reset()`
@@ -299,7 +301,7 @@ Sets value to `''` no matter what previous values were.
 - 4.0.0
  - Remove `rootElementClass` in favor of a better validityClass selector
  - Listen to `change` instead of `blur` event
- - Rest error message state on `clear()` and `reset()`
+ - Reset error message state on `clear()` and `reset()`
  - Allow `beforeSubmit` to be defined on initialization
 - 3.1.0 - Add [ampersand-version](https://github.com/ampersandjs/ampersand-version) for version tracking.
 - 3.0.0 - Add API reference docs. Add `.clear()`, `.reset()` methods. Make `value` derived property. Fix #21 validity class issue.
