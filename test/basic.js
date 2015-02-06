@@ -215,26 +215,34 @@ test('Tests with required true and false', function (t) {
     t.end();
 });
 
-test ('validityClass', function (t) {
-    var Input = InputView.extend({
-        bindings: {
-            'validityClass': {
-                type: 'class',
-                selector: 'label'
-            }
-        }
-    });
-    var input = new Input({
+test ('validityClassSelector', function (t) {
+    var input = new InputView({
         name: 'title',
+        validityClassSelector: 'label',
         required: true
     });
 
     input.render();
+    var inputElement = input.el.querySelector('input');
     input.beforeSubmit();
-    t.ok(hasClass(input.el, 'input-invalid'), 'Has invalid class');
-    t.notOk(hasClass(input.el, 'input-valid'), 'Does not have valid class');
-    t.end();
+    t.ok(hasClass(input.el, 'input-invalid'), 'Label has invalid class');
+    t.notOk(hasClass(input.el, 'input-valid'), 'Label does not have valid class');
+    t.notOk(hasClass(inputElement, 'input-invalid'), 'Input does not have invalid class');
+    t.notOk(hasClass(inputElement, 'input-valid'), 'Input does not have valid class');
 
+    input = new InputView({
+        name: 'title',
+        validityClassSelector: 'label, input',
+        required: true
+    });
+    input.render();
+    inputElement = input.el.querySelector('input');
+    input.beforeSubmit();
+    t.ok(hasClass(input.el, 'input-invalid'), 'Label has invalid class');
+    t.notOk(hasClass(input.el, 'input-valid'), 'Label does not have valid class');
+    t.ok(hasClass(inputElement, 'input-invalid'), 'Input has invalid class');
+    t.notOk(hasClass(inputElement, 'input-valid'), 'Input does not have valid class');
+    t.end();
 });
 
 test('inputClass is present on submit even if unchanged', function (t) {

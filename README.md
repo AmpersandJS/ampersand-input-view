@@ -218,16 +218,20 @@ var VerifiedAddressInput = AmpersandInputView.extend({
 ```
 
 #### Setting valid/invalid classes
-By default, `validClass` and `invalidClass` are set on any `input` or `textarea` in the rendered template.  If you want to override this you will need to override the `validityClass` binding that makes this happen
+By default, `validClass` and `invalidClass` are set on either the `input` or `textarea` in the rendered template.  This is done via a `validityClassSelector` property that is used to find the elements to apply either `validClass` or `invalidClass`. You can set `validityClassSelector` to have this class applied anywhere you need in your rendered template
+
+For instance, this would set the class on the root label instad:
 
 ```javascript:
 var CustomInput = InputView.extend({
-    bindings: {
-        'validityClass': {
-            type: 'class',
-            selector: 'label' //class will now be applied to the root label instead
-        }
-    }
+    validityClassSelector: 'label'
+});
+```
+
+And this would set it on the root label and the message element
+```javascript:
+var CustomInput = InputView.extend({
+    validityClassSelector: 'label, [data-hook=message-text]'
 });
 ```
 
@@ -293,7 +297,7 @@ Sets value to `''` no matter what previous values were.
 ## changelog
 
 - 4.0.0
- - Remove `rootElementClass` in favor of overriding validityClass selector
+ - Remove `rootElementClass` in favor of a better validityClass selector
  - Listen to `change` instead of `blur` event
  - Rest error message state on `clear()` and `reset()`
  - Allow `beforeSubmit` to be defined on initialization

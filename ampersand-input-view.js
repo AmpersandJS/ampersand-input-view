@@ -1,5 +1,16 @@
 /*$AMPERSAND_VERSION*/
 var View = require('ampersand-view');
+var dom = require('ampersand-dom');
+var matchesSelector = require('matches-selector');
+
+var slice = Array.prototype.slice;
+
+function getMatches(el, selector) {
+    if (selector === '') return [el];
+    var matches = [];
+    if (matchesSelector(el, selector)) matches.push(el);
+    return matches.concat(slice.call(el.querySelectorAll(selector)));
+}
 
 module.exports = View.extend({
     template: [
@@ -38,10 +49,6 @@ module.exports = View.extend({
             type: 'attribute',
             selector: 'input, textarea',
             name: 'placeholder'
-        },
-        'validityClass': {
-            type: 'class',
-            selector: 'input, textarea'
         }
     },
     initialize: function (spec) {
@@ -54,6 +61,7 @@ module.exports = View.extend({
         this.startingValue = value;
         this.inputValue = value;
         this.on('change:valid change:value', this.reportToParent, this);
+        this.on('change:validityClass', this.validityClassChanged, this);
         if (spec.template) this.template = spec.template;
         if (spec.beforeSubmit) this.beforeSubmit = spec.beforeSubmit;
     },
@@ -205,6 +213,12 @@ module.exports = View.extend({
     },
     clear: function () {
         this.setValue('', true);
+    },
+    validityClassChanged: function (view, newClass) {
+        var oldClass = view.previousAttributes().validityClass;
+        getMatches(this.el, this.validityClassSelector).forEach(function (match) {
+            dom.switchClass(match, oldClass, newClass);
+        });
     },
     reportToParent: function () {
         if (this.parent) this.parent.update(this);
