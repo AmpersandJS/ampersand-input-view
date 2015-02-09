@@ -184,7 +184,6 @@ module.exports = View.extend({
     handleChange: function () {
         if (this.type === 'file'){
             this.inputValue = this.input.files;
-            this.shouldValidate = true;
         }
         if (this.inputValue && this.changed) {
             this.shouldValidate = true;
