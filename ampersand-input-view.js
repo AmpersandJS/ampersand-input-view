@@ -28,6 +28,11 @@ module.exports = View.extend({
             selector: 'input, textarea',
             name: 'name'
         },
+        'accept': {
+            type: 'attribute',
+            selector: 'input',
+            name: 'accept'
+        },
         'label': [
             {
                 hook: 'label'
@@ -81,6 +86,7 @@ module.exports = View.extend({
         startingValue: 'any',
         name: 'string',
         type: ['string', true, 'text'],
+        accept: ['string', true, ''],
         placeholder: ['string', true, ''],
         label: ['string', true, ''],
         required: ['boolean', true, true],
@@ -176,6 +182,10 @@ module.exports = View.extend({
     },
     //`change` event handler
     handleChange: function () {
+        if (this.type === 'file'){
+            this.inputValue = this.input.files;
+            this.shouldValidate = true;
+        }
         if (this.inputValue && this.changed) {
             this.shouldValidate = true;
         }
