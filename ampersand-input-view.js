@@ -135,7 +135,7 @@ module.exports = View.extend({
         } else {
             this.input.value = value.toString();
         }
-        this.inputValue = this.input.value;
+        this.inputValue = this.clean(this.input.value);
         if (!skipValidation && !this.getErrorMessage()) {
             this.shouldValidate = true;
         } else if (skipValidation) {

@@ -39,6 +39,20 @@ test('initialize with value', function (t) {
     t.end();
 });
 
+test('initialize with number value and type perserved after render', function (t) {
+    var position = 1;
+    var input = new InputView({
+        name: 'position',
+        value: position,
+        type: 'number'
+    });
+
+    input.render();
+
+    t.equal(input.value, position);
+    t.end();
+});
+
 test('can initialize with template without having to extend', function (t) {
     var input = new InputView({
         name: 'title',
