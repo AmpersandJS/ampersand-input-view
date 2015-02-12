@@ -100,6 +100,7 @@ module.exports = View.extend({
             }
         },
         valid: {
+            cache: false,
             deps: ['inputValue'],
             fn: function () {
                 return !this.runTests();

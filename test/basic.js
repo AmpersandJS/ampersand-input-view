@@ -385,3 +385,38 @@ test('initialize with a custom beforeSubmit', function (t) {
     t.equal(input.beforeSubmit, customBeforeSubmit);
     t.end();
 });
+
+test('input that is dependent on another', function (t) {
+    var inputOne = new InputView({
+        name: 'foo',
+        required: true
+    });
+
+    var inputTwo = new InputView({
+        name: 'bar',
+        required: false,
+        tests: [
+            function () {
+                if (inputOne.valid) {
+                    return 'Not valid';
+                }
+            }
+        ]
+    });
+    inputOne.render();
+    inputTwo.render();
+    var inputElement = inputTwo.el.querySelector('input');
+    var messageContainer = inputTwo.el.querySelector('[data-hook=message-container]');
+
+    t.notOk(inputOne.valid);
+    t.ok(inputTwo.valid);
+    inputOne.setValue('something');
+    // Since the only thing parent form evaluates on submit is the valid entry,
+    // we can simulated that by evaluating valid on both
+    t.ok(inputOne.valid);
+    t.notOk(inputTwo.valid);
+    t.ok(isHidden(messageContainer), 'Message should not be visible');
+    t.notOk(hasClass(inputElement, 'input-invalid'), 'Does not have invalid class');
+    t.notOk(hasClass(inputElement, 'input-valid'), 'Doest not have valid class');
+    t.end();
+});
