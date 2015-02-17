@@ -155,6 +155,34 @@ test('initalize with a value of `0`', function(t) {
     t.end();
 });
 
+test('value `0` should be treated as a valid value if required is set to true', function(t) {
+    var input = new InputView({
+        name: 'title',
+        type: 'number',
+        value: 0,
+        required: true
+    });
+
+    input.render();
+
+    var inputElement = input.el.querySelector('input');
+    var messageContainer = input.el.querySelector('[data-hook=message-container]');
+
+    t.ok(isHidden(messageContainer), 'Message should not be visible');
+
+    inputElement.value = 1;
+    input.handleInputChanged();
+    input.handleChange();
+    t.ok(isHidden(messageContainer), 'Message should not be visible');
+
+    inputElement.value = 0;
+    input.handleInputChanged();
+    input.handleChange();
+    t.ok(isHidden(messageContainer), 'Message should not be visible');
+
+    t.end();
+});
+
 test('Tests with required true and false', function (t) {
     var inputs = [
         new InputView({
