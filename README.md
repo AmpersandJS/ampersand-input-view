@@ -59,7 +59,7 @@ var AmpersandInputView = require('ampersand-input-view');
 var MyCustomInput = AmpersandInputView.extend({
     initialize: function () {
         // call its parent's initialize manually
-        AmpersandInputView.prototype.initialize.call(apply, arguments);
+        AmpersandInputView.prototype.initialize.apply(this, arguments);
 
         // do whatever else you need to do on init here
     }
@@ -170,7 +170,7 @@ Do it by overriding the `value` derived property as follows:
 var VerifiedAddressInput = AmpersandInputView.extend({
     initialize: function () {
         // call parent constructor
-        AmpersandInputView.prototype.initialize.call(apply, arguments);
+        AmpersandInputView.prototype.initialize.apply(this, arguments);
 
         // listen for changes to input value
         this.on('change:inputValue', this.validateAddress, this);
