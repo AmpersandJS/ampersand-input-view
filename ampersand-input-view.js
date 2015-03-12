@@ -144,7 +144,7 @@ module.exports = View.extend({
     },
     getErrorMessage: function () {
         var message = '';
-        if (this.required && !this.value) {
+        if (this.required && this.value === '') {
             return this.requiredMessage;
         } else {
             (this.tests || []).some(function (test) {
