@@ -1,5 +1,8 @@
 # ampersand-input-view
 
+Lead Maintainer: [Chris (@cdaringe)](https://github.com/cdaringe)
+
+## Purpose
 A view module for intelligently rendering and validating input. Works well with [ampersand-form-view](https://github.com/AmpersandJS/ampersand-form-view).
 
 It does the following:
