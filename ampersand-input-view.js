@@ -62,6 +62,7 @@ module.exports = View.extend({
         this.inputValue = value;
         this.on('change:valid change:value', this.reportToParent, this);
         this.on('change:validityClass', this.validityClassChanged, this);
+        if (spec.autoRender) this.autoRender = spec.autoRender;
         if (spec.template) this.template = spec.template;
         if (spec.beforeSubmit) this.beforeSubmit = spec.beforeSubmit;
     },
@@ -130,6 +131,10 @@ module.exports = View.extend({
         }
     },
     setValue: function (value, skipValidation) {
+        if (!this.input) {
+            this.inputValue = value;
+            return;
+        }
         if (!value && value !== 0) {
             this.input.value = '';
         } else {
@@ -183,6 +188,11 @@ module.exports = View.extend({
         this.runTests();
     },
     beforeSubmit: function () {
+        // catch undetected input changes that were not caught due to lack of
+        // browser event firing see:
+        // https://github.com/AmpersandJS/ampersand-input-view/issues/2
+        this.inputValue = this.clean(this.input.value);
+
         // at the point where we've tried
         // to submit, we want to validate
         // everything from now on.
