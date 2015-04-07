@@ -1,6 +1,6 @@
 # ampersand-input-view
 
-Lead Maintainer: [Chris (@cdaringe)](https://github.com/cdaringe)
+Lead Maintainer: [Christopher Dieringer (@cdaringe)](https://github.com/cdaringe)
 
 ## Purpose
 A view module for intelligently rendering and validating input. Works well with [ampersand-form-view](https://github.com/AmpersandJS/ampersand-form-view).
@@ -297,9 +297,13 @@ Set value to back original value. If you passed a `value` when creating the view
 
 Sets value to `''` no matter what previous values were.
 
+## gotchas
+- Some browsers do not always fire a `change` event as expected.  In these [rare cases](https://github.com/AmpersandJS/ampersand-input-view/issues/2), validation may not occur when expected.  Validation *will occur* regardless on form submission, specifically when this field's `beforeSubmit` executes.
 
 ## changelog
-
+- 4.0.5
+ - Handle uncaught input value changes beforeSubmit
+ - Add view convention tests, and update to pass them
 - 4.0.0
  - Remove `rootElementClass` in favor of a better validityClass selector
  - Listen to `change` instead of `blur` event

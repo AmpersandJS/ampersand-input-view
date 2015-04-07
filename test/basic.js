@@ -1,7 +1,16 @@
 var test = require('tape');
+var suite = require('tape-suite');
+var viewConventions = require('ampersand-view-conventions');
 var InputView = require('../ampersand-input-view');
 var customTemplate = '<label class="custominput"><span data-hook="label"></span><input><div data-hook="message-container"><p data-hook="message-text"></p></div></label>';
 if (!Function.prototype.bind) Function.prototype.bind = require('function-bind');
+
+var fieldOptions = {
+    autoRender: true,
+    name: 'textField'
+};
+viewConventions.view(suite.tape, InputView, fieldOptions);
+viewConventions.formField(suite.tape, InputView, fieldOptions, 'foo');
 
 function isHidden(el) {
     return el.style.display === 'none';
