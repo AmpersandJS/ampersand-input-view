@@ -85,6 +85,7 @@ When creating an instance of an `InputView`, you can pass in the initial values 
 - `placeholder`: (optional) “placeholder text” for the input.
 - `el`: (optional) element if you want to render it into a specific exisiting element pass it on initialization.
 - `required` (default: `true`): whether this field is required or not.
+- `readonly` (default: `false`): whether this field is read only or not.
 - `requiredMessage` (default: `'This field is required'`): message to use if required and empty.
 - `validClass` (default: `'input-valid'`): class to apply to input if valid (see below for customizing where this is applied).
 - `invalidClass` (default: `'input-invalid'`): class to apply to input if invalid (see below for customizing where this is applied).
