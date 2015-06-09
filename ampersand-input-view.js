@@ -75,6 +75,9 @@ module.exports = View.extend({
         // Skip validation on initial setValue
         // if the field is not required
         this.setValue(this.inputValue, !this.required);
+        if (this.readonly) {
+            this.input.setAttribute('readonly', true);
+        }
         return this;
     },
     props: {
@@ -86,6 +89,7 @@ module.exports = View.extend({
         label: ['string', true, ''],
         required: ['boolean', true, true],
         directlyEdited: ['boolean', true, false],
+        readonly: ['boolean', true, false],
         shouldValidate: ['boolean', true, false],
         message: ['string', true, ''],
         requiredMessage: ['string', true, 'This field is required.'],
