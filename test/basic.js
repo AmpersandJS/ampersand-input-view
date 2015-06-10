@@ -457,3 +457,13 @@ test('input that is dependent on another', function (t) {
     t.notOk(hasClass(inputElement, 'input-valid'), 'Doest not have valid class');
     t.end();
 });
+
+test('check readonly attribute', function(t){
+    var inputViewReadonly = new InputView({ name: 'title', readonly: true });
+    var inputViewNotReadonly = new InputView({ name: 'title', readonly: false });
+    var inputView = new InputView({ name: 'title'});
+    t.equal(inputViewReadonly.readonly, true);
+    t.equal(inputViewNotReadonly.readonly, false);
+    t.equal(inputView.readonly, false);
+    t.end();
+});
