@@ -51,9 +51,9 @@ module.exports = View.extend({
             name: 'placeholder'
         },
         'readonly': {
-            type: "booleanAttribute",
-            name: "readonly",
-            selector: "input, textarea"
+            type: 'booleanAttribute',
+            name: 'readonly',
+            selector: 'input, textarea'
         }
     },
     initialize: function (spec) {
