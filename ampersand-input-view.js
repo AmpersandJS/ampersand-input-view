@@ -49,6 +49,11 @@ module.exports = View.extend({
             type: 'attribute',
             selector: 'input, textarea',
             name: 'placeholder'
+        },
+        'readonly': {
+            type: 'booleanAttribute',
+            name: 'readonly',
+            selector: 'input, textarea'
         }
     },
     initialize: function (spec) {
@@ -75,9 +80,6 @@ module.exports = View.extend({
         // Skip validation on initial setValue
         // if the field is not required
         this.setValue(this.inputValue, !this.required);
-        if (this.readonly) {
-            this.input.setAttribute('readonly', true);
-        }
         return this;
     },
     props: {
