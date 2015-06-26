@@ -8,6 +8,9 @@
       "ampersand-version"
     ]
   },
+  "files": [
+    "ampersand-input-view.js"
+  ],
   "bugs": {
     "url": "https://github.com/ampersandjs/ampersand-input-view/issues"
   },
