@@ -302,6 +302,10 @@ Sets value to `''` no matter what previous values were.
 - Some browsers do not always fire a `change` event as expected.  In these [rare cases](https://github.com/AmpersandJS/ampersand-input-view/issues/2), validation may not occur when expected.  Validation *will occur* regardless on form submission, specifically when this field's `beforeSubmit` executes.
 
 ## changelog
+- 5.0.0
+ - Upgrade to &-view 8.x
+ - Add `readonly` option
+ - dependency and test maintenance
 - 4.0.5
  - Handle uncaught input value changes beforeSubmit
  - Add view convention tests, and update to pass them
