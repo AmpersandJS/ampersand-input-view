@@ -1,7 +1,7 @@
 {
   "name": "ampersand-input-view",
   "description": "A view module for intelligently rendering and validating input. Works well with ampersand-form-view.",
-  "version": "5.0.0",
+  "version": "4.0.5",
   "author": "Henrik Joreteg <henrik@andyet.net>",
   "browserify": {
     "transform": [
@@ -48,6 +48,10 @@
   "scripts": {
     "start": "run-browser test/index.js",
     "test": "browserify test/index.js | tape-run | tap-spec",
+    "preversion": "git checkout master && git pull && npm ls",
+    "publish-patch": "npm run preversion && npm version patch && git push origin master --tags && npm publish",
+    "publish-minor": "npm run preversion && npm version minor && git push origin master --tags && npm publish",
+    "publish-major": "npm run preversion && npm version major && git push origin master --tags && npm publish",
     "lint": "jshint .",
     "validate": "npm ls"
   },
