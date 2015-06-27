@@ -303,17 +303,17 @@ Sets value to `''` no matter what previous values were.
 
 ## changelog
 - 5.0.0
- - Upgrade to &-view 8.x
- - Add `readonly` option
- - dependency and test maintenance
+    - Upgrade to &-view 8.x
+    - Add `readonly` option
+    - dependency and test maintenance
 - 4.0.5
- - Handle uncaught input value changes beforeSubmit
- - Add view convention tests, and update to pass them
+     - Handle uncaught input value changes beforeSubmit
+     - Add view convention tests, and update to pass them
 - 4.0.0
- - Remove `rootElementClass` in favor of a better validityClass selector
- - Listen to `change` instead of `blur` event
- - Reset error message state on `clear()` and `reset()`
- - Allow `beforeSubmit` to be defined on initialization
+    - Remove `rootElementClass` in favor of a better validityClass selector
+    - Listen to `change` instead of `blur` event
+    - Reset error message state on `clear()` and `reset()`
+    - Allow `beforeSubmit` to be defined on initialization
 - 3.1.0 - Add [ampersand-version](https://github.com/ampersandjs/ampersand-version) for version tracking.
 - 3.0.0 - Add API reference docs. Add `.clear()`, `.reset()` methods. Make `value` derived property. Fix #21 validity class issue.
 - 2.1.0 - Can now set `rootElementClass`. Add reset function #15. Allow setting `0` as value #17.
