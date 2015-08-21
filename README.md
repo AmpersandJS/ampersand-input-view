@@ -123,7 +123,7 @@ var CustomInput = AmpersandInputView.extend({
                 '<p data-hook="message-text"></p>',
             '</div>',
         '</label>'
-    ].join('');
+    ].join('')
 });
 
 // Then any instances of that would have it
