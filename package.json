@@ -22,16 +22,13 @@
   },
   "devDependencies": {
     "ampersand-view-conventions": "^1.1.5",
-    "browserify": "^10.2.4",
     "function-bind": "^1.0.0",
     "jshint": "^2.5.6",
-    "phantomjs": "^1.9.7-15",
+    "phantomjs": "^1.9.19",
     "precommit-hook": "^3.0.0",
-    "run-browser": "^2.0.2",
-    "tap-spec": "^4.0.2",
-    "tape": "^2.14.0",
-    "tape-run": "^1.0.0",
-    "tape-suite": "^0.2.1"
+    "tape": "^4.4.0",
+    "tape-suite": "^0.2.1",
+    "zuul": "^3.9.0"
   },
   "homepage": "https://github.com/ampersandjs/ampersand-input-view",
   "keywords": [
@@ -46,8 +43,9 @@
     "url": "git://github.com/ampersandjs/ampersand-input-view"
   },
   "scripts": {
-    "start": "run-browser test/index.js",
-    "test": "browserify test/index.js | tape-run | tap-spec",
+    "start": "zuul --local -- test/index.js",
+    "test": "zuul --phantom -- test/index.js",
+    "test-ci": "zuul -- test/index.js",
     "preversion": "git checkout master && git pull && npm ls",
     "publish-patch": "npm run preversion && npm version patch && git push origin master --tags && npm publish",
     "publish-minor": "npm run preversion && npm version minor && git push origin master --tags && npm publish",
