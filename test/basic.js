@@ -467,3 +467,11 @@ test('check readonly attribute', function(t){
     t.equal(inputView.readonly, false);
     t.end();
 });
+
+test('check tabindex value', function (t) {
+    var inputViewTabindex4 = new InputView({ name: 'title', tabindex: 4 });
+    var inputViewTabIndexDefault = new InputView({ name: 'title' });
+    t.equal(inputViewTabindex4.tabindex, 4);
+    t.equal(inputViewTabIndexDefault.tabindex, 0);
+    t.end();
+});
