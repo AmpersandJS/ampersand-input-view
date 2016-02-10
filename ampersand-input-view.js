@@ -28,6 +28,11 @@ module.exports = View.extend({
             selector: 'input, textarea',
             name: 'name'
         },
+        'tabindex': {
+            type: 'attribute',
+            selector: 'input, textarea',
+            name: 'tabindex'
+        },
         'label': [
             {
                 hook: 'label'
@@ -97,7 +102,8 @@ module.exports = View.extend({
         requiredMessage: ['string', true, 'This field is required.'],
         validClass: ['string', true, 'input-valid'],
         invalidClass: ['string', true, 'input-invalid'],
-        validityClassSelector: ['string', true, 'input, textarea']
+        validityClassSelector: ['string', true, 'input, textarea'],
+        tabindex: ['number', true, 0]
     },
     derived: {
         value: {
