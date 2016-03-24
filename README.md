@@ -279,6 +279,8 @@ Sets value to `''` no matter what previous values were.
 - Some browsers do not always fire a `change` event as expected.  In these [rare cases](https://github.com/AmpersandJS/ampersand-input-view/issues/2), validation may not occur when expected.  Validation _will occur_ regardless on form submission, specifically when this field's `beforeSubmit` executes.
 
 ## changelog
+- 6.0.0
+  - Upgrade to &-view 9.x
 - 5.1.0
   - add `tabindex`
 - 5.0.0
