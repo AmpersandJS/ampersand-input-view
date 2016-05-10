@@ -59,6 +59,11 @@ module.exports = View.extend({
             type: 'booleanAttribute',
             name: 'readonly',
             selector: 'input, textarea'
+        },
+        'autofocus': {
+            type: 'booleanAttribute',
+            name: 'autofocus',
+            selector: 'input, textarea'
         }
     },
     initialize: function (spec) {
@@ -97,6 +102,7 @@ module.exports = View.extend({
         required: ['boolean', true, true],
         directlyEdited: ['boolean', true, false],
         readonly: ['boolean', true, false],
+        autofocus: ['boolean', true, false],
         shouldValidate: ['boolean', true, false],
         message: ['string', true, ''],
         requiredMessage: ['string', true, 'This field is required.'],
