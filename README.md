@@ -281,8 +281,8 @@ Sets value to `''` no matter what previous values were.
 
 ## changelog
 - 7.0.0
-  - Upgrade to &-view 10.x
-  - Add `autofocus` option
+  - Upgrade to &-view 10.x (@RickButler #74)
+  - Add `autofocus` option (@taketwo #73)
 - 6.0.0
   - Upgrade to &-view 9.x
 - 5.1.0
