@@ -468,6 +468,16 @@ test('check readonly attribute', function(t){
     t.end();
 });
 
+test('check autofocus attribute', function(t){
+    var inputViewAutofocus = new InputView({ name: 'title', autofocus: true });
+    var inputViewNotAutofocus = new InputView({ name: 'title', autofocus: false });
+    var inputView = new InputView({ name: 'title'});
+    t.equal(inputViewAutofocus.autofocus, true);
+    t.equal(inputViewNotAutofocus.autofocus, false);
+    t.equal(inputView.autofocus, false);
+    t.end();
+});
+
 test('check tabindex value', function (t) {
     var inputViewTabindex4 = new InputView({ name: 'title', tabindex: 4 });
     var inputViewTabIndexDefault = new InputView({ name: 'title' });

@@ -75,6 +75,7 @@ When creating an instance of an `InputView`, you can pass in the initial values 
 - `el`: (optional) element if you want to render it into a specific exisiting element pass it on initialization.
 - `required` (default: `true`): whether this field is required or not.
 - `readonly` (default: `false`): whether this field is read only or not.
+- `autofocus` (default: `false`): whether this field automatically gets focus on page load or not.
 - `requiredMessage` (default: `'This field is required'`): message to use if required and empty.
 - `validClass` (default: `'input-valid'`): class to apply to input if valid (see below for customizing where this is applied).
 - `invalidClass` (default: `'input-invalid'`): class to apply to input if invalid (see below for customizing where this is applied).
@@ -279,6 +280,8 @@ Sets value to `''` no matter what previous values were.
 - Some browsers do not always fire a `change` event as expected.  In these [rare cases](https://github.com/AmpersandJS/ampersand-input-view/issues/2), validation may not occur when expected.  Validation _will occur_ regardless on form submission, specifically when this field's `beforeSubmit` executes.
 
 ## changelog
+- 6.1.0
+  - Add `autofocus` option
 - 6.0.0
   - Upgrade to &-view 9.x
 - 5.1.0
