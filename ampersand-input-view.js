@@ -215,6 +215,7 @@ module.exports = View.extend({
         // to submit, we want to validate
         // everything from now on.
         this.shouldValidate = true;
+        this.handleInputChanged();
         this.runTests();
     },
     runTests: function () {
