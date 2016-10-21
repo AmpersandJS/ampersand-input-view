@@ -82,6 +82,7 @@ When creating an instance of an `InputView`, you can pass in the initial values 
 - `parent`: a View instance to use as the `parent` for this input. If your InputView is in a FormView, this is automatically set for you.
 - `beforeSubmit`: function called by [ampersand-form-view](https://github.com/AmpersandJS/ampersand-form-view) during submit. By default this runs the tests and displays error messages.
 - `tabindex` (default: `0`): Specify the tab index number for your field (integer).
+- `clearValidationOnReset` (default: `false`): whether or not to clear validation class on field when it is reset by default.
 
 ### render `inputView.render()`
 Renders the inputView. This is called automatically if your inputView is used within a parent [ampersand-form-view](https://github.com/ampersandjs/ampersand-form-view).
@@ -270,23 +271,32 @@ $('[name=address]').datepicker({
 });
 ```
 
-### reset `inputView.reset()`
-Set value to back original value. If you passed a `value` when creating the view it will reset to that, otherwise to `''`.
+### reset `inputView.reset([resetValidation])`
+Set value to back original value. If you passed a `value` when creating the view it will reset to that, otherwise to `''`. Passing `true` to the method will clear validation state as well (`false` by default).
 
-### clear `inputView.clear()`
-Sets value to `''` no matter what previous values were.
+### clear `inputView.clear([resetValidation])`
+Sets value to `''` no matter what previous values were. Passing `true` to the method will clear validation state as well (`false` by default).
+
+### resetValidation `inputView.resetValidation()`
+Resets the validation state of the form field to its original state prior to any validation tests being ran on it.
 
 ## gotchas
 - Some browsers do not always fire a `change` event as expected.  In these [rare cases](https://github.com/AmpersandJS/ampersand-input-view/issues/2), validation may not occur when expected.  Validation _will occur_ regardless on form submission, specifically when this field's `beforeSubmit` executes.
 
 ## changelog
+- 7.1.0
+  - Add `resetValidation` functionality
+
 - 7.0.0
   - Upgrade to &-view 10.x (@RickButler #74)
   - Add `autofocus` option (@taketwo #73)
+
 - 6.0.0
   - Upgrade to &-view 9.x
+
 - 5.1.0
   - add `tabindex`
+
 - 5.0.0
   - Upgrade to &-view 8.x
   - Add `readonly` option
