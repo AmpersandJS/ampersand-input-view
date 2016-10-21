@@ -109,7 +109,8 @@ module.exports = View.extend({
         validClass: ['string', true, 'input-valid'],
         invalidClass: ['string', true, 'input-invalid'],
         validityClassSelector: ['string', true, 'input, textarea'],
-        tabindex: ['number', true, 0]
+        tabindex: ['number', true, 0],
+        clearValidationOnReset: ['boolean', true, false]
     },
     derived: {
         value: {
@@ -148,7 +149,7 @@ module.exports = View.extend({
             }
         }
     },
-    setValue: function (value, skipValidation) {
+    setValue: function (value, skipValidation, resetValidation) {
         if (!this.input) {
             this.inputValue = value;
             return;
@@ -159,6 +160,10 @@ module.exports = View.extend({
             this.input.value = value.toString();
         }
         this.inputValue = this.clean(this.input.value);
+        if (resetValidation) {
+            this.resetValidation();
+            return;
+        }
         if (!skipValidation && !this.getErrorMessage()) {
             this.shouldValidate = true;
         } else if (skipValidation) {
@@ -238,9 +243,16 @@ module.exports = View.extend({
         View.prototype.remove.apply(this, arguments);
     },
     reset: function () {
+        resetValidation = resetValidation || this.clearValidationOnReset;
         this.setValue(this.startingValue, true); //Skip validation just like on initial render
     },
+    resetValidation: function() {
+        this.message = '';
+        this.shouldValidate = false;
+        this.render();
+    },
     clear: function () {
+        resetValidation = resetValidation || this.clearValidationOnReset;
         this.setValue('', true);
     },
     validityClassChanged: function (view, newClass) {
