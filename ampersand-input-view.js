@@ -178,14 +178,16 @@ module.exports = View.extend({
         }
     },
     handleTypeChange: function () {
-        if (this.type === 'textarea' && this.input.tagName.toLowerCase() !== 'textarea') {
-            var parent = this.input.parentNode;
-            var textarea = document.createElement('textarea');
-            parent.replaceChild(textarea, this.input);
-            this.input = textarea;
-            this._applyBindingsForKey('');
-        } else {
-            this.input.type = this.type;
+        if (this.input.tagName.toLowerCase() !== 'textarea') {
+            if (this.type === 'textarea') {
+                var parent = this.input.parentNode;
+                var textarea = document.createElement('textarea');
+                parent.replaceChild(textarea, this.input);
+                this.input = textarea;
+                this._applyBindingsForKey('');
+            } else {
+                this.input.type = this.type;
+            }
         }
     },
     clean: function (val) {
