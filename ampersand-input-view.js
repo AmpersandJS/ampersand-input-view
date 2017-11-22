@@ -178,13 +178,23 @@ module.exports = View.extend({
         }
     },
     handleTypeChange: function () {
-        if (this.type === 'textarea' && this.input.tagName.toLowerCase() !== 'textarea') {
+        var tagname = this.input.tagName.toLowerCase();
+        
+        if (this.type === 'textarea' && tagname !== 'textarea') {
             var parent = this.input.parentNode;
             var textarea = document.createElement('textarea');
             parent.replaceChild(textarea, this.input);
             this.input = textarea;
             this._applyBindingsForKey('');
-        } else {
+        } else if (this.type !== 'textarea') {
+            if (tagname !== 'input') {
+                var parent = this.input.parentNode;
+                var input = document.createElement('input');
+                parent.replaceChild(input, this.input);
+                this.input = input;
+                this._applyBindingsForKey('');
+            }
+            
             this.input.type = this.type;
         }
     },
